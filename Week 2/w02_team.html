@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="wk2_team.js">
+    <title>Week 2 Team activity</title>
+</head>
+<body>
+    <header>
+        <h2>Week 2 Team activity</h2>
+    </header>
+    <hr>
+    <script src="wk2_team.js"></script>
+
+    <!-- Requirement 1 -->
+    <h2>Requirement 1</h2>
+    <input id="req1Input" type="text" />
+    <button id="req1Button" onclick="reqOne()">Submit</button>
+    <div id="req1Output"></div>
+
+    <!-- Requirement 2 -->
+    <h2>Requirement 2</h2>
+    <input id="req2Input" type="text" />
+    <button id="req2Button" onclick="reqTwo()">Sum</button>
+    <div id="req2Output"></div>
+
+    <!-- Requirement 3 -->
+    <h2>Requirement 3</h2>
+    <input id="req3Number1" placeholder="enter a number" type="number" /><input
+      id="req3Number2"
+      placeholder="enter a number"
+      type="number"
+    />
+    <button id="req3Button" onclick="add()">+</button>
+    <div id="req3Output"></div>
+
+    <h2>Stretch</h2>
+    <input
+      id="stretchNumber1"
+      placeholder="enter a number"
+      type="number"
+    /><input id="stretchNumber2" placeholder="enter a number" type="number" />
+    <!-- Notice below that all of our buttons are calling the same function...but passing in the name of another function as the argument. Notice also what is missing...when you pass a function as a callback you DO NOT include the ()! If you add the () the function will get executed immediately instead of later like we would like. -->
+    <button id="stretchAdd" onclick="performOperation(add2)">+</button>
+    <button id="stretchSub" onclick="performOperation(sub2)">-</button>
+    <button id="stretchMult" onclick="performOperation(mult2)">*</button>
+    <div id="stretchOutput"></div>
