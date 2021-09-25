@@ -1,0 +1,23 @@
+Chapter 2: Programming Basics
+https://byui.instructure.com/courses/160556/assignments/7228301?module_item_id=20163164
+
+Chapter 3: Arrays, Logic and Loops
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/1
+
+Chapter 4: Functions
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/1
+
+Codes to practice to get better (chapter 2-4)
+https://eloquentjavascript.net/code/
+
+Other resources for JS exercises
+https://www.w3resource.com/javascript-exercises/
+https://github.com/workshopper/javascripting/tree/master/problems
+https://www.jshero.net/en/success.html
+https://javascript30.com
+
+
+When will all of this start looking familiar so I can feel confident in coding?
+
+
+
