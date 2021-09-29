@@ -1,0 +1,52 @@
+1>Read the following article: Object Methods:(https://javascript.info/object-methods) 
+this.  If the concept of this still is a bit unclear you can 
+continue with this articles as well: This in Javascript (https://zellwk.com/blog/this/)
+
+2>Read all of Ch5: Objects (https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/5)
+3>Read all of Ch6: Document Object Model (https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/6)
+4>Read all of Ch7: Events (https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/7)
+
+
+The Document Object Model
+
+What is the DOM?  The Document Object Model, or DOM for short, represents an HTML document 
+as a network of connected nodes that form a tree-like structure.
+
+The DOM is not actually part of JavaScript because it islanguage agnostic(although 
+JavaScript is, by far, the language most commonly used with it). This means it can
+be used in any programming language, not just JavaScript. We can use JavaScript to 
+access and modify different parts of a web page using a special built-in object called document .
+
+An Example Web Page
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Justice League</title>
+</head>
+<body>
+    <header>
+    <h1 id='title'>Justice League</h1>
+    </header>
+    <ul id='roster'>
+    <li class='hero'>Superman</li>
+    <li class='vigilante hero' id='bats'>Batman</li>
+    <li class='hero'>Wonder Woman</li>
+    </ul>
+</body>
+</html>
+
+
+check out notes from group assignment and see all the 
+different ways to filter through an array.
+array.prototype.filter()
+array.prototype.map()
+array.prototype.sort()
+array.prototype.reduce()
+array.prototype.some()
+array.prototype.every()
+
+
+Quesions:  Is there one way that is better than the other when displaying an array in either a table or log?
+
+
