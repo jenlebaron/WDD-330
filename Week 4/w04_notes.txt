@@ -1,0 +1,12 @@
+1. Read all of Chapter 8 "Forms"
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/5/k01nwtte
+
+2. Read all of Chapter 12 "Object Oriented Programming"
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/5/k01nwtte
+
+3.  Read just tje section on Modular Javascript from Chapter 15 "Modern Javascript"
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/5/k01nwtte
+
+4.  Looking for more code exercises to practice with, look at execerses from chapters 6 and 10
+https://eloquentjavascript.net/code/
+
