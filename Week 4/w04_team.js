@@ -1,43 +1,37 @@
-let play_board = ["", "", "", "", "", "", "", "", ""];
-
-// const board_container = document.querySelector(".play-area");
-
-// const render_board = () => {
-//     board_container.innerHTML = "";
-//     play_board.forEach((e,i) => {
-//         board_container.innerHTML += '<div id="block_${i}" class="block" onclick="addPlayerMove(${i})">${play_board[i]}</div>';
-//         if (e == player || e == computer) {
-//             document.querySelector('#block_${i}').classList.add("occupied");
-//         }
-//     });
-// };
-
-// render_board();
-
-//touch even listner that connects to a block
-const playArea = document.getElementById("play-area");
-let turn = 0;
-
-playArea.addEventListener('touchend', (event) => {
-    let char = turn % 2 == 0 ? "X" : "O";
-
-    //know what block it is in
-    console.log(event.target.id);
-
-    document.getElementById(event.target.id).innerHTML = char;
-    let index = event.target.getAttribute('data-index');
-    playBoard[index] = char;
-    console.log(playBoard);
-    turn++;
-});
-
-//reset
-function resetBoard() {
-    for (let i = 0; i < 9; i++) {
-        document.getElementById(`block_${i}`).innerHTML = '';
-    }
-} 
-
-//game logic
-function gameWon() {
-}
+const board = document.querySelector('.board');
+      const divBoard = document.querySelector('.divBoard');
+      const resetButton = document.getElementById('reset');
+      const player1 = 'X';
+      const player2 = 'O';
+      let player = player1;
+      function addPiece(e) {
+        console.log(e.target);
+        e.target.innerHTML = player;
+        if (player === player1) player = player2;
+        else player = player1;
+      }
+      // table version
+    //   function resetBoard() {
+    //     console.dir(board);
+    //     for (let i = 0; i < board.rows.length; i++) {
+    //       let row = board.rows[i];
+    //       for (let j = 0; j < row.cells.length; j++) {
+    //         row.cells[j].innerHTML = '';
+    //       }
+    //     }
+    //   }
+      // div version
+      function resetBoardDiv() {
+        const divBoard = document.querySelector('.divBoard');
+        for (let i = 0; i < divBoard.children.length; i++) {
+          divBoard.children[i].innerText = '';
+        }
+        const children = Array.from(divBoard.children);
+        const empty = children.filter(function(child) {
+          return child.innerText == 'X' || child.innerText == 'O';
+        });
+        console.log(empty);
+      }
+      board.addEventListener('click', addPiece);
+      divBoard.addEventListener('click', addPiece);
+      reset.addEventListener('click', resetBoardDiv);
