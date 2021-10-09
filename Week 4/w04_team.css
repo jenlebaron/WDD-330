@@ -65,7 +65,7 @@ button {
 */
 
 /* styles for the table based board */
-/* .board {
+.board {
     width: 320px;
     height: 320px;
   }
@@ -87,10 +87,10 @@ button {
 
   .board tr:last-child td {
     border-bottom: 0;
-  } */
+  }
 
   /* Styles for the div based board */
-  .divBoard {
+  /* .divBoard {
     display: grid;
     grid-template-columns: 100px 100px 100px;
     grid-template-rows: 100px 100px 100px;
@@ -102,7 +102,7 @@ button {
     border: 1px solid;
     font-size: 5em;
     text-align: center;
-  }
+  } */
   /* .divBoard > div:nth-child(3n) {
     border-right: 0;
   }
