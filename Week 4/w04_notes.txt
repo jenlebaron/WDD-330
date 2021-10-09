@@ -10,3 +10,291 @@ https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/r
 4.  Looking for more code exercises to practice with, look at execerses from chapters 6 and 10
 https://eloquentjavascript.net/code/
 
+
+<form>
+Each form control has an initial value that can be specified in the HTML code. 
+This value can be changed by a user entering information or interacting with 
+the form’s interface (such as using a slider to increase or decrease a value). 
+The value can also be changed dynamically using JavaScript.
+
+A Searching Example
+    <!doctype html>
+    <html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>Search</title>
+    </head>
+    <body>
+        <form name='search' action='/search'>
+            <input name='searchInput'>
+            <button type='submit'>Search</button>
+        </form>
+    <script src='main.js'></script>
+    </body>
+    </html>
+    This form has anameattribute ofsearch, and contains two controls: 
+    an input field where a user can enter a search phrase, and a button 
+    to submit the form. The form can also be submitted by pressing Enter.
+
+    Theactionattribute is the URL that the form will be submitted to so 
+    it can be processed on the server side. The input field also has 
+    anameattribute ofsearchInputthat is used to access the information inside it.
+
+    You should also create a file calledmain.jsto put the JavaScript in. 
+    This can be saved in the same directory assearch.html.
+
+Accessing Form Elements
+    const form = document.forms[0];
+    const form = document.getElementsByTagname('form')[0];
+    const form = document.forms.search;
+
+    Be careful referencing elements in this way, however. If the form had 
+    the same name as any properties or methods of thedocument.formsobject, 
+    such as 'submit', for example, that property or method would be referenced 
+    instead of the<form>element. This is unlikely to happen, as 
+    thedocument.formobject doesn't have many properties or methods, but it is 
+    something to be aware of. To avoid this, square bracket notation can be used 
+    (this is also required if the form’s name attribute contains any invalid 
+    characters, such as spaces or dashes):
+    const form = document.forms['search'];
+    const [input,button] = form.elements;
+    const input = form.searchInput
+    const input = form['searchInput']
+
+Form Properties and Methods
+    Theform.submit()method will submit the form automatically. Note that submitting 
+    a form using this method won’t trigger the formsubmitevent that's covered in the 
+    next section.
+
+    A form can be submitted manually by the user employing a button or input element 
+    with a type attribute ofsubmit, or even an input element with atypeattribute 
+    ofimage:
+
+    <button type='submit'>Submit</button>
+    <input type='submit' value='Submit'>
+    <input type='image' src='button.png'>
+    A button with atypeattribute ofresetcan also be used to do this without 
+    the need for additional scripting:
+
+    <button type='reset'>Reset</button>
+    Reset buttons are generally considered poor for usability, as they are 
+    too easy to click and then wipe out all the data that’s been entered. 
+    So think very carefully before using one in a form.
+
+    Theform.actionproperty can be used to set theactionattribute of a form, so 
+    it’s sent to a different URL to be processed on the server:
+    form.action = '/an/other.url'
+
+Form Events    
+    Forms trigger a number of events like those discussed in the last chapter. 
+    Some of these events are exclusive to forms.
+
+    Thefocusevent occurs when an element is focused on. In the case of 
+    an<input>element, this is when the cursor is placed inside the element 
+    (either by clicking or tapping on it or navigating to it using the keyboard). 
+    To see an example, add the following code tomain.js:
+    const input = form.elements.searchInput;
+    input.addEventListener('focus', () => alert('focused'), false);
+    Theblurevent occurs when the user moves the focus away from the form element. 
+        input.addEventListener('blur', () => alert('blurred'), false);
+    Thechangeevent occurs when the user moves the focus away from the form elementafter changing it.
+        input.addEventListener('change', () => alert('changed'), false);
+
+Submitting a Form
+    Possibly the most important form event is thesubmitevent, occurring when the 
+    form is submitted. Usually this will send the content of the form to the server 
+    to be processed, but we can use JavaScript to intercept the form before it’s sent 
+    by adding asubmitevent listener. Add the following code to themain.jsfile:
+        const form = document.forms['search'];
+        form.addEventListener ('submit', search, false);
+
+        function search() {
+            alert(' Form Submitted');
+        }
+    We can actually stop the form from being submitted to that URL altogether by using 
+    thepreventDefault()method that we saw in the last chapter. Add the following line to 
+    the search function:
+        function search(event) {
+            alert('Form Submitted');
+            event.preventDefault();
+        }
+
+Object-Oriented Programming in JavaScript
+    Object-oriented programming (OOP for short) is a style of programming that involves separating 
+    the code into objects that have properties and methods. This approach has the benefit of 
+    keeping related pieces of code encapsulated in objects that maintain state throughout the life 
+    of the program. The objects can also be reused or easily modified, as required. JavaScript 
+    obviously supports objects, as we saw in Chapter 5, so it also supports an object-oriented style 
+    of programming. In this chapter, we’ll look at what object-oriented programming is and how to 
+    implement it in JavaScript.
+Encapsulation
+    When I use my juicer, I put the fruit into the machine, press the 'on' button and out comes the 
+    juice. I haven’t a clue how it does it—only that it makes a very loud noise! This demonstrates 
+    the concept of encapsulation: the inner workings are kept hidden inside the object and only the 
+    essential functionalities are exposed to the end user, such as the 'on' button. In OOP, this involves 
+    keeping all the programming logic inside an object and making methods available to implement the 
+    functionality, without the outside world needing to knowhowit’s done.
+Polymorphism
+    My juicer isn't the only appliance I own that has an 'on' button, although the way the on button 
+    works is slightly different for each appliance. My juicer also uses the same electrical outlet as 
+    other appliances in my kitchen. I can also place various types of fruit into it and it still juices 
+    them. These examples demonstrate the concept of polymorphism: the same process can be used for 
+    different objects. In OOP, this means various objects can share the same method, but also have the 
+    ability to override shared methods with a more specific implementation.
+Inheritance
+    I’d really like the next model up from my juicer, as it can deal with more types of fruit and it’s a bit 
+    quieter. Even though it has these extra features, I’m sure that inside it uses many of the same parts that 
+    my juicer has. This demonstrates the concept of inheritance: taking the features of one object then adding 
+    some new features. In OOP, this means we can take an object that already exists and inherit all its properties 
+    and methods. We can then improve on its functionality by adding new properties and methods.
+Classes
+    Many object-oriented languages, such as Java and Ruby, are known asclass-basedlanguages. This is because they 
+    use a class to define a blueprint for an object. Objects are then created as an instance of that class, and 
+    inherit all the properties and methods of the class. In my juicer example, thejuicerclass would represent the 
+    design of the juicer, and each juicer that’s made on the production line would be instances of that class.
+Constructor Functions
+    const Dice = function(sides=6){
+    this.sides = sides;
+    this.roll = function() {
+        return Math.floor(this.sides * Math.random() + 1)
+        }
+    }  
+    We can now create aninstanceof the dice constructor function using the new operator.
+        const redDice = new Dice();
+        << Dice { sides: 6, roll: [Function] }          
+Static Methods
+    The static keyword can be used in class declarations to create a static method. These are sometimes called 
+    class methods in other programming languages. A static method is called by the class directly rather than 
+    by instances of the class.
+        For example, theDiceclass could have a method
+            class Dice {
+                constructor(sides=6) {
+                    this.sides = sides;
+                }
+
+                roll() {
+                    return Math.floor(this.sides * Math.random() + 1)
+                }
+
+                static description() {
+                    return 'A way of choosing random numbers'
+                }
+            }
+        This method is called from the Dice class like so:
+            Dice.description()
+            << 'A way of choosing random numbers'
+Public and Private Methods-By default, an object’s methods are public in JavaScript. Methods and properties are said to be public 
+    because they can be queried directly and changed by assignment. The dynamic nature of the language means 
+    that an object’s properties and methods can be changed after it has been created.
+
+
+Modern JavaScript Development
+    In this chapter, we’ll cover the following topics:
+
+Libraries-A JavaScript library is a piece of code that provides several methods that make it easier to achieve common 
+    tasks. JavaScript is an extremely flexible language that can accomplish most programming tasks – but not all 
+    undertakings are as easy to do as they should be. A library will abstract functionality into easier-to-use 
+    functions and methods. These can then be used to complete common tasks without having to use lots of 
+    repetitive code.
+        DOM Manipulation Example
+            para.classList.add('important');
+            const newPara = document.createElement('p');
+            newPara.textContent = 'Another Paragraph';
+            para.appendChild(newPara);
+        jQuery-by using the jQuery library, we can achieve the same result using a single line of code
+            $(para).addClass('important').append('<p>Another Paragraph</p>');
+        Underscore & Lodash
+            // flatten an array
+            _.flatten([1, [2, [3, [4]], 5]]);
+            << [1, 2, [3, [4]], 5]
+
+            // return the last element in an array
+            _.last([1, 2, 3]);
+            << 3
+
+            // randomly shuffle an array
+            _.shuffle([1, 2, 3, 4]);
+            // => [4, 1, 3, 2]
+
+Modular JavaScript-Don't Use More Than One Default Export. 
+    Having more than one default export will result in a syntax error.
+        import PI from './pi.js';
+        import square from './square.js';
+        import stats from './stats.js';
+
+MVC frameworks-Model-View-Controller (MVC) is a design pattern that’s been used for a long 
+    time in server-side languages. It’s a common way of designing software, and used by 
+    server-side frameworks such as Ruby On Rails and Django. In recent years it has been 
+    used in JavaScript code to make it easier to organize large-scale web applications.
+
+        Models-are objects that implement the functionality for creating, reading, updating 
+        and deleting (known as CRUD tasks) specific pieces of information about the 
+        application, as well as any other associated logic and behavior. In a to-do list 
+        application, for example, there would be a task model providing methods to access 
+        all the information about the tasks such as names, due dates and completed tasks. 
+        This data will often be stored in a database or some other container.
+
+        Views-provide a visual representation of the model showing all the relevant information. 
+        In a web application, this would be the HTML displayed on a web page. Views also provide 
+        a way for users to interact with an application, usually via forms. In a to-do list 
+        application, the views would display the tasks as an HTML list with checkboxes that a user 
+        could tick to say a task had been completed.
+
+        Controllers-link models and views together by communicating between them. They respond to events, 
+        which are usually inputs from a user (entering some data into a form, for example), process 
+        the information, then update the model and view accordingly. In a to-do list application, the 
+        controller functions would respond to the event of a user clicking on a check box and 
+        then inform the model that a task had been completed. The model would then update the 
+        information about that task.
+
+        Here’s an example of how the MVC architecture can be implemented using JavaScript. It will 
+        be a simple list creator that allows the user to add items to a list by entering them into 
+        a form field.
+
+            <!doctype html>
+            <html lang='en'>
+            <head>
+                <meta charset='utf-8'>
+                <title>MVC List</title>
+            </head>
+            <body>
+                <form id="input">
+                    <label for='name'>Name:</label>
+                    <input type='text' name='name' autofocus required >
+                    <button type='submit'>Submit</button>
+                </form>
+                <ul id='list'></ul>
+                <script src='main.js'></script>
+            </body>
+            </html> 
+
+Package managers-As modules have become more widely used in JavaScript, there’s been a need for tools 
+    to manage them. Package managers allow developers to download modules from a central repository. 
+    Apackageis just a directory with one or more files of code, as well as apackage.jsonfile that 
+    contains information about the code in the package. Developers can also share any modules they create 
+    by uploading them to the central repository for others to use. A package manager makes it easy to install, 
+    upgrade and remove any packages that are used in a project. They also allow you to manage different 
+    versions of packages.
+
+    {
+    "name": "project-x",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+    }
+
+
+Questions:
+
+I am a planner and would love to know what project we need to do at the end of this class so I can start on it.  
+It takes me more time to get things done so I want to make sure I have plenty of time to get it done and understand 
+what I am doing.  I learn better by doing code not just reading code.  The holidays are coming up and I have a houseful 
+of guest in December so I am trying to make sure I am for the most part done before the holidays hit.
+
+
+
