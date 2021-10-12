@@ -1,0 +1,66 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Great Hikes (dynamic DOM example)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+ <!-- 
+1.  Take a look at this starter code for a hiking app. It is an example of a small application 
+    that takes some data ( in this case an array of objects), and builds out the HTML necessary to 
+    display it in the browser. It is simply a collection of functions and variables with no attempt 
+    at organization. Since this is a small app we can get away with it, but if it were larger and 
+    more complex it could quickly become hard to follow. As complexity increases, code that has no 
+    thought towards organization usually turns into 'spaghetti code'.
+
+    Think about how you could use modules, objects, or classes to better organize this code. What 
+    modules would you need? What objects would make sense? Discuss this with your group.
+
+    You might start by making a list of all of the functions and properties you think you will need 
+    (look that the code for a starting point!). Notice also the stretch goals below...make sure your 
+    pattern will allow for the stretch goals to be completed as well.
+
+    The process of evaluating code like we are doing to improve it is called refactoring, and is a 
+    pretty common practice. Note that the output of the code should not change...it should accomplish 
+    the same thing at the end as it did in the beginning. Only the organization and structure of the 
+    code should change to make it more portable, maintainable, reusable, etc.
+
+2.  Implement the modules, objects, and/or classes you discussed above to organize the Hikes code. 
+    Before you do this, compare your plans with this partial solution file. It has a class with 
+    methods stubbed out. How does it differ from your plans? Discuss this with your team. You do not 
+    need to implement yours exactly like the example...but make sure you understand why each of the 
+    properties, methods, and functions are there before continuing.
+
+    With either your groups ideas or using the partial solution file above, write the rest of the 
+    code to make the application work.
+
+    I would recommend a structure similar to the following for your application:
+
+    index.html 
+    main.js 
+    hikes.js 
+    styles.css 
+
+3. Style it.
+    Add the CSS required to make your list of hikes match this wireframe.
+
+Stretch Goals
+ 
+
+1.  Get the details-When we touch a hike it would be good if it showed us the full details for 
+    that hike. Make it so. Replace the list of hikes with a detailed view of one hike.
+
+2.  Getting Back to our list-Add a "back" button/link that will take you from the hike details 
+    back to the main list.-->
+    
+  <body>
+    <main>
+      <h1>Great hikes</h1>
+      <ul id="hikes" class="hikeStyles">
+        <!-- your hike list should be build here. -->
+      </ul>
+    </main>
+
+    <script src="hiking-start.js"></script>
+  </body>
+</html>
+

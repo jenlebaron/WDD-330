@@ -1,0 +1,316 @@
+1.  Read all of Chapter 10 - Testing and Debugging
+    https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/10
+
+2.  Looking for more code exercises to practice with check out code sandbox.  
+Look at exercises from chapter 8
+    https://eloquentjavascript.net/code/chapter/08_error.js
+
+Testing and Debugging
+
+Errors, Exceptions, and Warnings
+    Errors are caused when something goes wrong in a program. They are usually caused by one of the following:
+
+        System error ― there’s a problem with the system or external devices with which the program is interacting.
+
+        Programmer error ― the program contains incorrect syntax or faulty logic; it could even be as simple as a typo.
+
+        User error ― the user has entered data incorrectly, which the program is unable to handle.
+
+    Exceptions-An exception is an error that produces a return value that can then be used by the program to deal with 
+    the error. For example, trying to call a method that is nonexistent will result in a reference error that raises an 
+    exception, as you can see in the example below when we try to call the mythical unicorn()function:
+        unicorn();
+        << ReferenceError: unicorn is not defined
+
+        Stack Traces-This is a sequence of functions or method calls that lead to the point where the error occurred. It’s 
+        often not just a single function or method call that causes an error. A stack trace will work backwards from the point 
+        at which the error occurred to identify the original function or method that started the sequence. The example below 
+        shows how a stack trace can help you find where an error originates from:
+            function three(){ unicorn(); }
+            function two(){ three(); }
+            function one(){ two(); }
+            one();
+
+            << index.html:13 Uncaught ReferenceError: unicorn is not defined
+                at three (index.html:13)
+                at two (index.html:17)
+                at one (index.html:21)
+                at index.html:24`
+
+            In this example, we have three functions: function one()invokes function two(), which then invokes function three(). 
+            Function three()then invokes the unicorn()function that doesn't exist and causes an error. We can use the stack 
+            trace to work backwards and see that this error was caused by invoking the function one()in the first place.
+
+    Warnings-can occur if there’s an error in the code that isn't enough to cause the program to crash. This means the program 
+    will continue to run after a warning. This might sound good, but it can be problematic, since the issue that produced the 
+    warning may cause the program to continue running incorrectly.
+
+        An example of a mistake that could cause a warning is assigning a value to a variable that’s undeclared:
+
+        pi = 3.142;
+        << JavaScript Warning: assignment to undeclared variable
+
+        When a runtime error occurs in the browser, the HTML will still appear, but the JavaScript code will stop working in 
+        the background, which isn’t always obvious at first. If a warning occurs, the JavaScript will continue to run 
+        (although possibly incorrectly).
+
+The Importance of Testing and Debugging
+    JavaScript is a fairly forgiving language when it comes to errors; it didn’t implement exceptions at all until ECMAScript 
+    version 3. Instead of alerting a user to an error in a program, it just failed silently in the background, and this is 
+    sometimes still the case. It might seem like a good idea at first, but the error might give unexpected or incorrect results 
+    that nobody spots, or lurk in the background for a long time before causing the program to crash spectacularly. Failing 
+    silently makes errors difficult to spot and longer to track down.
+
+    For this reason, a ninja programmer should ensure that the code they write fails loudly in development so any errors can be 
+    identified and fixed quickly. In production, a ninja programmer should try to make the code fail gracefully (although not 
+    completely silently ― we still need to know there’s an error), so the user experience is not affected, if possible. This 
+    is achieved by making sure exceptions are caught and dealt with, and code is tested rigorously.
+
+Strict Mode
+    ECMAScript 5 introduced a strict mode that produces more exceptions and warnings and prohibits the use of some deprecated 
+    features. This is due to the fact that strict mode considers coding practices that were previously accepted as just being 
+    'poor style' as actual errors.
+
+    Increasing the chance of errors might seem like a bad idea at first, but it’s much better to spot errors early on, rather 
+    than have them cause problems later. Writing code in strict mode can also help improve its clarity and speed, since it 
+    follows conventions and will throw exceptions if any sloppy code practices are used.
+
+    Not using strict mode is often referred to as 'sloppy mode' as it’s forgiving of sloppy programming practices. Strict mode 
+    encourages a better quality of JavaScript to be written that befits a ninja programmer, so its use is recommended.
+
+    Strict mode simply requires the following string to be added to the first line of a JavaScript file:
+
+        'use strict';
+
+        function strictly(){
+        'use strict';
+        // function code goes here
+
+        (function() {
+        'use strict';
+
+        // All your code would go inside this function
+
+        }());
+       
+       Linting Tools-can be used to test the quality of JavaScript code, beyond simply using strict mode. They are 
+       designed to highlight any sloppy programming practices or syntax errors, and will complain if certain style 
+       conventions are not followed, such as how code is indented. They can be very unforgiving and use some opinionated 
+       coding conventions, such as not using the++and--increment operators (in the case of JS Lint). Linting tools are 
+       also useful for enforcing a programmingstyle guide. This is particularly useful when you are working in a team, 
+       as it ensures everybody follows the same conventions.
+
+Debugging in the Browser
+    Debugging is the process of finding out where bugs occur in the code and then dealing with them. In many cases, the 
+    point at which an error occurs is not always where it originated, so you’ll need to run through the program to see 
+    what’s happening at different stages of its execution. When doing this, it can be useful to create what are known as 
+    breakpoints, which halt the progress of the code and allow us to view the value of different variables at that point 
+    in the program. There are a number of options for debugging JavaScript code in the browser.
+
+    The Trusty Alert-The most basic form of debugging is to use the alert()method to show a dialog at certain points in 
+    the code. Because alert()stops a program from running until OK is clicked, it allows us to effectively put breakpoints 
+    in the code that let us check the value of variables at that point to see if they’re what we expect them to be.
+
+        Using alerts for debugging was the only option in the past, but JavaScript development has progressed since then 
+        and their use is discouraged for debugging purposes today.
+
+    Using the Console
+        Most modern JavaScript environments have aconsoleobject that provides a number of methods for logging information 
+        and debugging. It's not officially part of the ECMAScript specification, but is well supported in all the major 
+        browsers and Node.js.
+
+        We've already seen and used the console.log()method. This can be used to log the value of variables at different 
+        stages of the program, although it will not actually stop the execution of the program in the same way as alert()does. 
+        For example, we could add someconsole.log()statements in theamIOldEnough()function, to log the position in the 
+        function as well as the value of theagevariable:
+        
+        function amIOldEnough(age){
+            console.log(age);
+                if (age < 12) {
+                console.log(`In the if with ${age}`);
+                return 'No, sorry.';
+                } else if (age < 18) {
+                console.log(`In the else-if with ${age}`);
+                return 'Only if you are accompanied by an adult.';
+                } else {
+                console.log(`In the else with ${age}`);
+                return 'Yep, come on in!';
+            }
+        }
+            The console.trace()method will log an interactive stack trace in the console. This will show the functions that 
+            were called in the lead up to an exception occurring while the code is running.
+
+    Debugging Tools
+        Most modern browsers also have a debugging tool that allows you to setbreakpointsin your code that will pause it at 
+        certain points. You can then see the values of all the variables at those points and modify them. This can be very 
+        useful when trying to track down bugs. Here are the links to the debugger documentation for each of the 
+        major browsers:
+
+            Firefox-https://developer.mozilla.org/en-US/docs/Tools/Debugger
+
+            Edge-https://docs.microsoft.com/en-us/archive/microsoft-edge/legacy/developer/
+
+            Chrome-https://developer.chrome.com/docs/devtools/
+
+            Safari-https://developer.apple.com/library/archive/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Debugger/Debugger.html
+
+        One of the most useful commands is thedebuggerkeyword. This will create a breakpoint in your code that will pause the 
+        execution of the code and allow you to see where the program is currently up to. You can also hover over any variables 
+        to see what value they hold at that point. The program can then be restarted by clicking on the 'play' button.
+
+        The example below shows how thedebuggercommand can be used in theamIOldEnough()function. If you try entering the code 
+        below into your browser's console, then invoke theamIOldEnough()function, the browser's debugging tool will automatically 
+        kick in and you'll be able see the value of theagevariable by hovering over it:
+
+            function amIOldEnough(age){
+                debugger;
+                    if (age < 12) {
+                    debugger;
+                    return 'No, sorry.';
+                    } else if (age < 18) {
+                    debugger;
+                    return 'Only if you are accompanied by an adult.';
+                    } else {
+                    debugger;
+                    return 'Yep, come on in!';
+                }
+            }
+            amIOldEnough(16);
+                Remember to remove any references to thedebuggercommand before shipping any code, otherwise the program will 
+                appear to freeze when people try to use it!
+
+Error objects
+    Anerrorobject can be created by the host environment when an exception occurs, or it can be created in the code using a 
+    constructor function, like so:
+        const error = new Error();
+    This constructor function takes a parameter that’s used as the error message:
+        const error = new Error('Oops, something went wrong');
+    There are seven more error objects used for specific errors:
+
+        EvalError is not used in the current ECMAScript specification and only retained for backwards compatibility. It was 
+        used to identify errors when using the globaleval()function.
+
+        RangeError is thrown when a number is outside an allowable range of values.
+
+        ReferenceError is thrown when a reference is made to an item that doesn’t exist. For example, calling a function 
+        that hasn't been defined.
+
+        SyntaxError is thrown when there’s an error in the code’s syntax.
+
+        TypeError is thrown when there’s an error in the type of value used; for example, a string is used when a 
+        number is expected.
+
+        URIError is thrown when there’s a problem encoding or decoding the URI.
+
+        InternalError is a non-standard error that is thrown when an error occurs in the JavaScript engine. A common 
+        cause of this too much recursion.
+
+    These error objects can also be used as constructors to create custom error objects:
+        const error = new TypeError('You need to use numbers in this function');
+    All error objects have a number of properties, but they’re often used inconsistently across browsers. The only 
+    properties that are generally safe to use are:
+
+    The name property returns the name of the error constructor function used as a string, such as 'Error' or 'Reference Error'.
+
+    Th emessage property returns a description of the error and should be provided as an argument to the 
+    Error constructor function.
+
+    The stack property will return a stack trace for that error. This is a non-standard property and it’s recommended 
+    that it is not safe to use in production sites.
+
+
+Throwing Exceptions
+    It’s also possible to throw your own exceptions using the throw statement. This will allow for any problems in your 
+    code to be highlighted and dealt with, rather than lurk quietly in the background.
+
+    The throw statement can be applied to any JavaScript expression, causing the execution of the program to stop. For 
+    example, all the following lines of code will cause a program to halt:
+        
+        throw 2;
+        throw 'Up';
+        throw { toys: 'out of pram' };
+
+    It is best practice, however, to throw an error object. This can then be caught in a catch block, which is covered 
+    later in the chapter:
+
+        throw new Error('Something has gone badly wrong!');
+
+Exception Handling
+    When an exception occurs, the program terminates with an error message. This is ideal in development as it allows us 
+    to identify and fix errors. In production, however, it will appear as if the program has crashed, which does not reflect 
+    well on a ninja programmer.
+
+    It is possible to handle exceptions gracefully by catching the error. Any errors can be hidden from users, but still 
+    identified. We can then deal with the error appropriately ― perhaps even ignore it ― and keep the program running.
+
+        try,catch, and finally
+
+    If we suspect a piece of code will result in an exception, we can wrap it in a try block. This will run the code inside 
+    the block as normal, but if an exception occurs it will pass the error object that is thrown onto a catch block. Here’s 
+    a simple example using our squareRoot()function from earlier:
+
+        function imaginarySquareRoot(number) {
+            'use strict';
+            try {
+                return String(squareRoot(number));
+            } catch(error) {
+                return squareRoot(-number)+'i';
+            }
+        }
+    The code inside the catch block will only run if an exception is thrown inside thetryblock. The error object is automatically 
+    passed as a parameter to the catch block. This allows us to query the error name, message and stack properties, and deal 
+    with it appropriately. In this case, we actually return a string representation of an imaginary number:
+
+        imaginarySquareRoot(-49) // no error message shown
+        << '7i'
+    A finally block can be added after a catch block. This will always be executed after the try or catch block, regardless of 
+    whether an exception occurred or not. It is useful if you want some code to run in both cases. We can use this to modify 
+    the imaginary SquareRoot()function so that it adds "+ or -" to the answer before returning it:
+  
+        function imaginarySquareRoot(number) {
+            'use strict';
+            let answer;
+            try {
+                answer = String(squareRoot(number));
+            } catch(error) {
+                answer = squareRoot(-number)+"i";
+            } finally {
+                return `+ or - ${answer}`;
+            }
+        }
+
+    Tests-Testing is an important part of programming that can often be overlooked. Writing good tests means your code will 
+    be less brittle as it develops, and any errors will be identified early on.  A test can simply be a function that tests 
+    a piece of code runs as it should. 
+
+    Test-driven Development(TDD) is the process of writing tests before any actual code. Obviously these tests will initially 
+    fail, because there is no code to test. The next step is to write some code to make the tests pass. After this, the code 
+    is refactored to make it faster, more readable, and remove any repetition. The code is continually tested at each stage 
+    to make sure it continues to work. This process should be followed in small piecemeal chunks every time a new feature is 
+    implemented, resulting in the following workflow:
+
+        Write tests (that initially fail)
+
+        Write code to pass the tests
+
+        Refactor the code
+
+        Test refactored code
+
+        Write more tests for new features
+
+    This is often referred to as the “red-green-refactor” cycle of TDD, as failing tests usually show up as red, and tests 
+    that pass show as green.
+
+    Test-driven development is considered to be best practice, but in reality you'll find most developers tend to be more 
+    pragmatic when it comes to writing tests. The TDD mindset can be hard to always use, and at the end of the day, any 
+    tests are better than no tests at all. 
+
+Testing Frameworks
+
+    Jest is a TDD framework, created by Facebook, that has gained a lot of popularity recently. It makes it easy to 
+    create and run tests by providing helper methods for common test assertions.
+
+        To use Jest, first we need to install it usingnpm. Enter the following command in a terminal:
+
+            npm install -g jest
