@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="w04_team.css">
-    <script>src="w04_team.js"</script>
+    <script src="w04_team.js" defer></script>
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
-    <!-- <div class="container">
+    <div class="container">
         <h1>Week 4 Team Activity<br>Tic Tac Toe</h1>
-        <div class="playArea">
+        <div class="divBoard" id="play-area">
             <div id="block_0" class="block" data-index="0"></div>
             <div id="block_1" class="block" data-index="1"></div>
             <div id="block_2" class="block" data-index="2"></div>
@@ -24,10 +24,10 @@
         </div>
         <h2 id="winner"></h2>
         <button onclick='reset_board()'>Reset Board</button>
-    </div> -->
+    </div>
 
     <!-- Here is a board built with a table element. It goes together quickly, and need minimal styling...but it will be a bit more work to get at it's children-->
-    <table class="board">
+    <!-- <table class="board">
         <tr>
           <td></td>
           <td></td>
@@ -43,7 +43,7 @@
           <td></td>
           <td></td>
         </tr>
-      </table>
+      </table> -->
   
       <!-- Here is a board built with simple div elements. The markup is simpler, but it will require more styling to get it to look like a tic tac toe board. All of the cells are direct children of the board, so they will be easy to get a hold of.-->
       <!-- <div class="divBoard">
@@ -57,6 +57,6 @@
         <div></div>
         <div></div>
       </div> -->
-      <button id="reset">Reset</button>
+      <!-- <button id="reset">Reset</button> -->
 </body>
 </html>
