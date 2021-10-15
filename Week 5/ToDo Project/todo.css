@@ -1,0 +1,52 @@
+body{
+    background-color: blanchedalmond;
+    line-height: 35px;
+    font-size: larger;
+}
+
+header{
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: xx-large;
+}
+.container{
+    width: 45%;
+    margin: auto;
+}
+.innerContainer{
+    border: 3px solid black;
+}
+ul{
+    list-style: none;
+}
+.addTodo{
+    border: 3px solid black;
+    display: flex;
+    flex-direction: row;
+}
+.actionBar{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;   
+}
+span{
+    width: 35%;
+}
+.buttonHolder{
+   padding-left: 15px;
+   padding-top: 18px;
+}
+button{
+    background-color: cornflowerblue;
+    border-radius: 8px;
+    padding:5px 5px;
+}
+
+.addTodo, 
+.innerContainer, 
+.buttons{
+    background-color: white;
+}
+input{
+    font-size: large;
+}

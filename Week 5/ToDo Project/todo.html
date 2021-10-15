@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,15 +39,58 @@ Details
                 https://trello.com/b/94QLblUO/todo-project
             There are no dates assigned to the board. Assign yourself some due dates to make sure 
             you complete the project in the allotted time. -->
-    
+
 <body>
+    <header>
+        <h1>Todos</h1>
+        <a href="/index.html">Back to Index</a>
+        <hr>
+    </header>
+
+    <div class="container">
+        <!-- outside box -->
+        <div class="innerContainer">
+            <div class="todos">
+                <!-- task -->
+                <div>
+                    <!-- checkbox -->
+                    <ul>
+                        <li>Laundry</li>
+                    </ul>
+                    <!-- at the end of  task draw an x(use image) -->
+                </div>
+            </div>
+            
+            <div class="actionBar">
+                <!-- task count down -->
+                <span>
+                    <p>task left</p>
+                </span>                                
+                <div class="buttonHolder">
+                    <!-- button to show all  -->
+                    <button>All</button>
+                    <!-- button to show active -->
+                    <button>Active</button>
+                    <!-- button to show completed -->
+                    <button>Complete</button>
+                </div>
+                
+            </div>
+        </div>        
+        <br>
+        <div class="addTodo">
+            <!-- add new task to List -->
+            <input type="text" placeholder="Add New Task">
+            <!-- add task-->
+            <div class="plus">
+                <button> + </button>
+            </div>
     
-    
+        </div>
+    </div>
     
 
-    <header>
-        
-    </header>
-    
+
 </body>
+
 </html>
