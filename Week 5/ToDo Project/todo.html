@@ -41,56 +41,35 @@ Details
             you complete the project in the allotted time. -->
 
 <body>
-    <header>
-        <h1>Todos</h1>
-        <a href="/index.html">Back to Index</a>
-        <hr>
+    <header id="myTodo">
+        <h1>Todo List</h1>
+        <a href="/index.html">Back to Index</a><br><br>
+        <!-- add new task -->
+        <div class="after">
+            <input type="text" id='addTask' placeholder="Add New Task">
+            <span onclick="onNewTask()" class="addBtn">Add</span><br>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- outside box -->
-        <div class="innerContainer">
-            <div class="todos">
-                <!-- task -->
-                <div>
-                    <!-- checkbox -->
-                    <ul>
-                        <li>Laundry</li>
-                    </ul>
-                    <!-- at the end of  task draw an x(use image) -->
-                </div>
-            </div>
-            
-            <div class="actionBar">
-                <!-- task count down -->
-                <span>
-                    <p>task left</p>
-                </span>                                
-                <div class="buttonHolder">
-                    <!-- button to show all  -->
-                    <button>All</button>
-                    <!-- button to show active -->
-                    <button>Active</button>
-                    <!-- button to show completed -->
-                    <button>Complete</button>
-                </div>
-                
-            </div>
-        </div>        
-        <br>
-        <div class="addTodo">
-            <!-- add new task to List -->
-            <input type="text" placeholder="Add New Task">
-            <!-- add task-->
-            <div class="plus">
-                <button> + </button>
-            </div>
-    
+    <div>
+        <!-- task count down -->
+        <span id="taskCount" class="taskCount"></span>
+        <!-- checkbox -->
+        <ul id="myList"></ul>
+        <br><br>
+    </div>
+
+    <div class="actionBar">
+        <!-- not linking onlicks until they are working -->
+        <div class="buttonHolder">
+            <!-- button to show all  -->
+            <button class="btn">All</button>
+            <!-- button to show active -->
+            <button>Active</button>
+            <!-- button to show completed -->
+            <button>Complete</button>
         </div>
     </div>
-    
-
-
 </body>
 
 </html>
