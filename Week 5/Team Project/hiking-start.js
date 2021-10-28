@@ -1,4 +1,4 @@
-import Hikes from '../Week 5/hikes.js'
+import Hikes from './hikes.js'
 
 const hikeList = [
   {

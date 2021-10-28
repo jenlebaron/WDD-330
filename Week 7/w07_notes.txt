@@ -1,0 +1,534 @@
+AJAX and Callbacks
+
+1. Read all of Ch11: Further Functions.
+    https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/11
+2. Read all of Ch13: AJAX.
+
+3. If you are looking for more code exercises to practice with check out this code sandbox. You should look at the exercises from Ch 5 and 18
+
+4. Turn in your notes (including questions) OR the code from the examples/exercises, in ILearn.
+
+
+Chapter 11 Further Functions
+
+    In JavaScript, functions are first-class objects, which means they can be passed around in the same way as every other value. They can have their own properties and methods, as well as accepting other functions as parameters and being returned by other functions. This makes them a very flexible tool to work with in JavaScript, and there are a variety of techniques and patterns that can be used to make code cleaner.
+
+    Function Properties and Methods 
+
+        The fact that functions are first-class objects means they can have properties and methods themselves. For example, all functions have a length property that returns the number of parameters the function has.
+
+        Call and Apply Methods - The call() method can be used to set the value of this inside a function to an object that is provided as the first argument.
+
+            In the following example, the sayHello() function refers to an unspecific object called this that has a property called name:
+                Sample
+                function sayHello(){
+                    return `Hello, my name is ${ this.name }`;
+                }
+
+        Custom Properties - There is nothing to stop you adding your own properties to functions in the same way that you can add properties to any object
+            in JavaScript. For example, you could add a description property to a function that describes what it does:
+
+            Sample
+            square.description = 'Squares a number that is provided as an argument'
+            << 'Squares a number that is provided as an argument'
+
+        Memoization - A useful feature of this is that it provides result caching, or memoization.
+
+    Immediately Invoked function expressions - or IIFE – (pronounced 'iffy') is an anonymous function that, as the name suggests, is invoked as soon as 
+        it’s defined. This is easily achieved by placing parentheses at the end of the function definition (remember we use parentheses to invoke a function). The function also has to be made into an expression, which is done by placing the whole declaration inside parentheses, as in this example:
+            Sample
+            (function(){
+            const temp = 'World';
+            console.log(`Hello ${temp}`);
+            })();
+            << 'Hello World'
+
+        IIFEs are a useful way of performing a task while keeping any variables wrapped up within the scope of the function. This means the global namespace is not polluted with lots of variable names.
+
+        Temporary Variables - There is no way to remove a variable from a scope once it’s been declared. If a variable is only required temporarily, 
+            it may cause confusion if it’s still available later in the code. Even worse, the name of the variable may clash with another piece of 
+            code (an external JavaScript library, for example) resulting in errors. Placing any code that uses the temporary variable inside an IIFE will ensure it’s only available while the IIFE is invoked, then it will disappear. The example that follows uses an IIFE to swap the value of two global variables, a and b. This process requires the use of a temporary variable, called temp, which only exists while the IIFE is invoked:
+                Sample
+                let a = 1;
+                let b = 2;
+
+                (()=>{
+                    const temp = a;
+                    a = b;
+                    b = temp;
+                })();
+
+                a;
+                << 2
+
+                b;
+                << 1
+
+                console.log(temp);
+                << Error: "temp is not defined"
+
+        Initialization Code - An IIFE can be used to set up any initialization code that there’ll be no need for again. Because the code is only 
+            run once, there’s no need to create any reusable, named functions, and all the variables will also be temporary. An IIFE will be invoked 
+            once, and can set up any variables, objects and event handlers when the page loads. The following example logs a welcome message to the console, then eliminates all the temporary variables used in putting the message together:
+
+        Safe Use of Strict Mode - One of the problems with simply placing 'use strict' at the beginning of a file is that it will enforce strict mode 
+            on all the JavaScript in the file, and if you’re using other people’s code, there’s no guarantee that they’ve coded in strict mode.
+            To avoid this, the recommended way to use strict mode is to place all your code inside an IIFE, like so:
+                Sample
+                (function() {
+                    'use strict';
+
+                // All your code would go inside this function
+
+                })();
+
+        Creating Self-contained Code Blocks - An IIFE can be used to enclose a block of code inside its own private scope so it doesn’t interfere with 
+            any other part of the program. Using IIFEs in this way means code can be added or removed separately. The example shows two blocks, A and B, that are able to run code independently of each other:
+                Sample
+                (function() {
+                    // block A
+                    const name = 'Block A';
+                    console.log(`Hello from ${name}`);
+                    }());
+
+                    (function() {
+                    // block B
+                    const name = 'Block B';
+                    console.log(`Hello from ${name}`);
+                }());
+
+                <<  Hello from Block A
+                    Hello from Block B
+
+    Self-defining functions
+            
+        Functions that Define and Rewrite Themselves -   The dynamic nature of JavaScript means that a function is able to not only call itself, but 
+            define itself, and even redefine itself. This is done by assigning an anonymous function to a variable that has the same name as the function.
+            Consider the following function:
+                Sample
+                function party(){
+                    console.log('Wow this is amazing!');
+                    party = function(){
+                        console.log('Been there, got the T-Shirt');
+                    }
+                } 
+
+    Recursive functions -  one that invokes itself until a certain condition is met. It’s a useful tool to use when iterative processes are involved. A 
+        common example is a function that calculates the factorial of a number:
+        Sample
+        function factorial(n) {
+            if (n === 0) {
+                return 1;
+            } else {
+                return n * factorial(n - 1);
+            }
+        }
+        This function will return 1 if 0 is provided as an argument (0 factorial is 1), otherwise it will multiply the argument by the result of invoking itself with an argument of one less. The function will continue to invoke itself until finally the argument is 0 and 1 is returned. This will result in a multiplication of 1, 2, 3 and all the numbers up to the original argument.
+
+    Promises - represents the future result of an asynchronous operation. Promises don't do anything that can't already be achieved using callbacks, 
+        but they help simplify the process, and avoid the convoluted code that can result from using multiple callbacks.
+
+        The Promise Life Cycle - When a promise is created, it calls an asynchronous operation and is then said to be pending. It remains in this 
+            state while the operation is taking place. At this stage, the promise is said to be unsettled. Once the operation has completed, the promise is said to have been settled. A settled promise can result in two different outcomes:
+                Resolved ― the asynchronous operation was completed successfully.   
+                Rejected ― the asynchronous operation didn’t work as expected, wasn't successfully completed or resulted in an error.
+                Both these outcomes will return any relevant data, and you can take the appropriate action based on the outcome of the promise.
+
+        A Super Promise - Imagine if a shady character gave you a red pill, and promised that if you took it, you'd be a superhero. Being an adventurous 
+            sort, you swallow the pill and wait to see what happens. You're currently in the pending phase of a promise, waiting to see what the result will be.  Suddenly you find that you have the power to dodge bullets as if time was standing still! The promise has been resolved, and now you need to go off and use your newly acquired powers.  But if nothing happens, you would reject the promise and warn people that a stranger is wandering around giving out red pills and peddling a fanciful story.  This scenario puts a comic-book spin on the phases of a promise. There is a pending phase while you wait on the results of an operation (taking the pill). Then once the promise is settled, you deal with the results in an appropriate way ― by using your superpowers if the promise is resolved, or dealing with any problems if it doesn't work out.  The Promise of a Burger Party is a brilliant post by Mariko Kosaka that explains the concept of promises by comparing them to ordering a burger!
+
+        Creating A Promise - A promise is created using a constructor function. This takes a function called an executor as an argument. The executor
+            initializes the promise and starts the asynchronous operation. It also accepts two functions as arguments: the resolve() function is called if the operation is successful, and the reject() function is called if the operation fails. The general layout of a promise can be seen in the code below:
+                Sample
+                const promise = new Promise( (resolve, reject) => {
+                    // initialization code goes here
+                    if (success) {
+                        resolve(value);
+                    } else {
+                        reject(error);
+                    }
+                });
+
+    Async functions - were added to the ES2017 specification. These functions are preceded by the async keyword and allow you to write asynchronous code 
+        as if it was synchronous. This is achieved by using the await operator before an asynchronous function. This will wrap the return value of the function in a promise that can then be assigned to a variable. The next line of code is not executed until the promise is resolved. The example below shows how the loadGame() function can be written an async function:
+            Sample
+            async function loadGame(userName) {
+
+                try {
+                    const user = await login(userName);
+                    const info = await getPlayerInfo (user.id);
+                    // load the game using the returned info
+                }
+
+                catch (error){
+                    throw error;
+                }
+            }
+
+        Generalized Functions - Callbacks can be used to build more generalized functions. Instead of having lots of specific functions, one function 
+            can be written that accepts a callback. For example, let's create a function that returns a random integer between two values that are provided as arguments, a and b, or if only 1 argument is provided, it will return a random integer between 1 and the argument provided:
+
+    Functions That Return Functions - We've just seen that functions can accept another function as an argument (a callback), but they can also 
+        return a function.  The example below shows a function called returnHello() that returns a 'Hello World' function:
+            Sample
+            function returnHello() {
+                console.log('returnHello() called');
+                return function() {
+                    console.log('Hello World!');
+                }
+            }
+
+    Closures - are one of JavaScript’s most powerful features, but they can be difficult to get your head around initially.
+
+    Introduction to functional programming
+
+        Pure Functions - A key aspect of functional programming is its use of pure functions. A pure function is a function that adheres 
+            to the following rules:
+
+            1) The return value of a pure function should only depend on the values provided as arguments. It doesn't rely on values from somewhere else in the program.
+
+            2) There are no side-effects. A pure function doesn't change any values or data elsewhere in the program. It only makes non-destructive data transformations and returns new values, rather than altering any of the underlying data.
+
+            3) Referential transparency. Given the same arguments, a pure function will always return the same result.
+
+            In order to follow these rules, any pure function must have:
+
+            At least one argument; otherwise the return value must depend on something other than the arguments of the function, breaking the first rule
+            A return value; otherwise there’s no point in the function (unless it has changed something else in the program – in which case, it’s broken the 'no side-effects' rule).
+            Pure functions help to make functional programming code more concise and predictable than in other programming styles. Referential transparency makes pure functions easy to test as they can be relied on to return the same values when the same arguments are provided. Another benefit is that any return values can be cached, since they’re always the same (see the section on Memoization above). The absence of any side-effects tends to reduce the amounts of bugs that can creep into your code, because there are no surprise dependencies as they only rely on any values provided as arguments.
+
+    Currying -  is a process that involves the partial application of functions. It’s named after the logician Haskell Curry — not the spicy food — 
+        just like the programming language Haskell is. His work on a paper by Moses Schönfinkel lead to the development of this programming technique.  A function is said to be curried when not all arguments have been supplied to the function, so it returns another function that retains the arguments already provided, and expects the remaining arguments that were omitted when the original function was called. A final result is only returned once all the expected arguments have eventually been provided.  Currying relies on higher-order functions that are able to return partially applied functions. All curried functions are higher-order functions because they return a function, but not all higher-order functions are curried.  The power() function above is an example of a higher-order function that can be curried as it will expects two arguments, but will return another, curried function, if the only one argument is provided.  
+
+Chapter 13 Ajax
+
+    Ajax is a technique that allows web pages to communicate asynchronously with a server, and it dynamically updates web pages without reloading. This enables data to be sent and received in the background, as well as portions of a page to be updated in response to user events, while the rest of the program continues to run. The use of Ajax revolutionized how websites worked, and ushered in a new age of web applications. Web pages were no longer static, but dynamic applications.
+
+    Clients and servers - The web of computers known as the internet can be separated into two parts: clients and servers. A client, such as a 
+        web browser, will request a resource (usually a web page) from a server, which processes the request and sends back a response to the client.
+
+        JavaScript was originally designed as a client-side scripting language, meaning that it ran locally in the browser, adding dynamic features to the web page that was returned from the server. Ajax allows JavaScript to request resources from a server on behalf of the client. The resources requested are usually JSON data or small fragments of text or HTML rather than a whole web page.
+
+        Consequently, a server is required when requesting resources using Ajax. Typically this involves using a server-side language, such as PHP, Ruby, Node.js, or .NET to serve the data response following an Ajax request (usually from a back-end database). To practice using Ajax, you can either set up a local development server on your own computer, or request the files from an external website that uses cross-origin resource sharing (CORS) in order to avoid the same-origin policy that browsers enforce. All the examples in this chapter can be run without having to set up a local development server, although it may be worth looking into if you wish to do a lot of Ajax or server-side development.
+
+    A brief history of Ajax - When the World Wide Web started, web pages contained static content. Any changes to the content on the page required a 
+        full page reload, often resulting in the screen going blank while the new page loaded. Remember, this was back in the 1990s, when dial-up modems were the norm.
+
+        In 1999, Microsoft implemented the XMLHTTP ActiveX control in Internet Explorer 5. It was developed initially for the Outlook web client, and allowed data to be sent asynchronously in the background using JavaScript. Other browsers implemented this technique, although it remained a relatively unknown feature, and was rarely used.
+
+        Asynchronous loading techniques started to be noticed when Google launched Gmail and Google Maps in 2004 and 2005 respectively. These web applications used asynchronous loading techniques to enhance the user experience by changing the parts of the page without a full refresh. This gave them a much snappier and responsive quality that felt more like a desktop application.
+
+        The term 'Ajax' was coined by Jesse James Garrett in 2005 in the article “Ajax: A New Approach to Web Applications,” where he referred to techniques being used by Google in its recent web applications. Ajax was a neat acronym that referred to the different parts of the process being used: Asynchronous JavaScript and XML:
+
+            Asynchronous - When a request for data is sent, the program doesn’t have to stop and wait for the response. It can carry on running, waiting for an event to fire when a response is received. By using callbacks to manage this, programs are able to run in an efficient way, avoiding lag as data is transferred back and forth.
+
+            JavaScript - was always considered a 'front-end' language, not used to communicate with the server. Ajax enabled JavaScript to send requests and receive responses from a server, allowing content to be updated in real time.
+
+            XML - When the term Ajax was originally coined, XML documents were often used to return data. Many different types of data can be sent, but by far the most commonly used in Ajax nowadays is JSON, which is more lightweight and easier to parse than XML. (Although it has never really taken off, the term Ajaj is sometimes used to describe the technique.) JSON also has the advantage of being natively supported in JavaScript, so you can deal with JavaScript objects rather than having to parse XML files using DOM methods.  After the publication of Garrett's article, Ajax use really started to take off. Now users could see new content on web pages without having to refresh the page. Shopping baskets could be updated in the background, partial page content could be loaded seamlessly, and photo galleries could dynamically load images.  Today, it’s unusual for Ajax not to be used when a partial web page update is required. The explosion in the use of public APIs also means that Ajax is used more than ever to transport data back and forth between sites.
+
+            APIs - An application programming interface (API) is a collection of methods that allows external access to another program or service. Many websites allow controlled access to their data via public APIs. This means that developers are able to interact with the data and create mashups of third-party services. A weather site, for example, might have an API that provides methods that return information about the weather in a given location, such as temperature, wind speed, and so on. This can then be used to display local weather data on a web page. The information that’s returned by APIs is often serialized as JSON. Since the data is being provided by an external site, CORS will have to be enabled in order to access information from an API. Some services may also require authentication in order to access their APIs.
+
+    Communicating with the server using the Fetch API
+
+        The Fetch API - The XMLHttpRequest object was finally standardized by the WHATWG and W3C as part of the HTML5 specification, despite it originally being implemented by Microsoft many years earlier, and already available in most browsers.  It has since been superseded by the Fetch API, which is currently a living standard for requesting and sending data asynchronously across a network. The Fetch API uses promises to avoid callback hell, and also streamlines a number of concepts that had become cumbersome when using the XMLHttpRequest object.  We're going to start by taking a look at how the Fetch API works and the different interfaces that it uses. After this we'll build a page that demonstrates the ideas we've looked at.
+
+            Basic Usage - The Fetch API provides a global fetch() method that only has one mandatory argument, which is the URL of the resource you wish to fetch. A very basic example would look something like the following piece of code:
+                Sample
+                fetch('https://example.com/data')
+                .then( // code that handles the response )
+                .catch( // code that runs if the server returns an error )
+
+            As you can see, the fetch() method returns a promise that resolves to the response returned from the URL that was provided as an argument. In the example above, the promise will be resolved when a response is received from the URL 'https:example.com/data'. Because it’s a promise, we can also use a catch statement at the end to deal with any errors that may occur.
+
+        Response Interface - The Fetch API introduced the Response interface that deals with the object that’s returned when the promise is fulfilled. Response objects have a number of properties and methods that allow us to process the response effectively.  For example, each response object has an ok property that checks to see if the response is successful. This is based on the HTTP status code, which can be accessed using the status property. This will usually be 200 if the response was successful, 201 if a resource was created, or 204 when the request is successful but no content is returned. The ok property will return true if the status property is between 200 and 299. We need to manually check if this happens because the promise will only be rejected in the case of a network error, rather than something like a '404 page not found error', which is still considered a successful request in terms of the promise.  This means that we can use an if block to check if the request was successful, and throw an error otherwise:
+            Sample
+            const url = 'https:example.com/data';
+
+            fetch(url)
+            .then((response) => {
+                if(response.ok) {
+                    return response;
+                }
+                throw Error(response.statusText);
+            })
+            .then( response => // do something with response )
+            .catch( error => console.log('There was an error!') )
+
+        Notice that the error thrown refers to the statusText property of the response object and specifies the status message that corresponds to the code returned, for example it might be 'Forbidden' for a status code of 403.
+
+        Some other properties of the Response object are:
+
+            headers – A Headers object (see later section) containing any headers associated with the response
+            url – A string containing the URL of response
+            redirected – A boolean value that specifies if the response is the result of a redirect
+            type – A string value of 'basic', 'cors', 'error' or 'opaque'. A value of 'basic' is used for a response from the same domain. A value of 'cors' means the data was received from a valid cross-origin request from a different domain. A value of 'opaque' is used for a response received from 'no-cors' request from another domain, which means access to the data will be severely restricted. A value of 'error' is used when a network error occurs.
+        The response object also contains a number of methods that return promises that can then be chained together.
+
+        Redirects - The redirect() method can be used to redirect to another URL. It creates a new promise that resolves to the response from the redirected URL.  Here is an example of how a redirect response promise would be resolved:
+            Sample
+            fetch(url)
+            .then( response => response.redirect(newURL)); // redirects to another URL
+            .then( // do something else )
+            .catch( error => console.log('There was an error: ', error))
+        At the present time, there is no support for the redirect() method in any browser.
+
+        Text Responses - The text() method takes a stream of text from the response, reads it to completion and then returns a promise that resolves to a USVSting object that can be treated as a string in JavaScript.  Here is an example of how a text response promise would be resolved:
+            Sample
+            fetch(url)
+            .then( response => response.text() ); // transforms the text stream into a JavaScript string
+            .then( text => console.log(text) )
+            .catch( error => console.log('There was an error: ', error))
+        In this example, once the promise has been resolved, we use the string() method to return a promise that resolves with a string representation of the text that was returned. In the next statement, we take the result of the promise and use console.log() to display the text in the console.
+
+        File Responses - The blob() method is used to read a file of raw data, such as an image or a spreadsheet. Once it has read the whole file, it returns a promise that resolves with a blob object.  Here is an example of how a file response promise would be resolved:
+            Sample
+            fetch(url)
+            .then( response => response.blob() ); // transforms the data into a blob object
+            .then( blob => console.log(blob.type) )
+            .catch( error => console.log('There was an error: ', error))
+        This example is similar to the text example above, but we use the blob() method to return a blob object. We then use the type property to log the MIME-type to log what type of file we have received.
+
+        JSON Responses - JSON is probably the most common format for AJAX responses. The json() method is used to deal with these by transforming a stream of JSON data into a promise that resolves to a JavaScript object.  Here is an example of how a JSON response promise would be resolved:
+            Sample
+            fetch(url)
+            .then( response => response.json() ); // transforms the JSON data into a JavaScript object
+            .then( data => console.log(Object.entries(data)) )
+            .catch( error => console.log('There was an error: ', error))
+        Again, this is very similar to the earlier examples, except this response returns some JSON data that is then resolved as a JavaScript object. This means we can manipulate the object using JavaScript. In the example below, the Object.entries() method is used to view the key and value pairs in the returned object.
+
+        Creating Response Objects - Although most of the time you will be dealing with a response object that is returned from a request you make, you can also create your own response objects using a constructor function:
+            Sample
+            const response = new Response( 'Hello!', {
+                ok: true,
+                status: 200,
+                statusText: 'OK',
+                type: 'cors',
+                url: '/api'
+            });
+
+            The first argument is the data that is to be returned (for example a text stream, file or JSON data). The second argument is an object that can be used to provide values for any of the properties listed above.  These can be useful to use if you are creating an API that needs to send a response, or if you need to send a dummy response for testing purposes.
+
+        Request Interface - We can get more fine-grained control over the request being made by providing a Request object as an argument. This allows a number of options to be set about the request.  Request objects are created using the Request() constructor, and include the following properties:
+
+            url – The URL of the requested resource (the only property that is required).
+            method – a string that specifies which HTTP method should be used for the request. By default, this is 'GET'.
+            headers – This is a Headers object (see later section) that provides details of the request's headers.
+            mode – Allows you to specify if CORS is used or not. CORS is enabled by default.
+            cache – Allows you to specify how the request will use the browser's cache. For example, you can force it to request a resource and update the cache with the result, or you can force it to only look in the cache for the resource.
+            credentials – Lets you specify if cookies should be allowed with the request.
+            redirect – Specifies what to do if the response returns a redirect. There’s a choice of three values: 'follow' (the redirect is followed), 'error' (an error is thrown) or 'manual' (the user has to click on a link to follow the redirect).
+
+        Hypertext Transfer Protocol - The Web is built upon the Hypertext Transfer Protocol, or HTTP. When a client (usually a browser) makes a request to a server, it contains information about which HTTP verb to use. HTTP verbs, also known as HTTP methods are the what HTTP uses to tell the server what type of request is being made, which then determines the server will deal with the request.  The five most commonly used verbs when dealing with resources on the web are:
+
+            GET requests to retrieve resources
+            POST requests, usually used to create a resource but can actually perform any task
+            PUT requests to upsert, which means insert a resource or update it entirely
+            PATCH requests to make partial updates to a resource
+            DELETE requests to delete a resources.
+
+        By default, a link in a web page will make a GET request. Forms are also submitted using a GET request by default, but they will often use a POST request.
+
+        We can use the Headers, Request and Response objects to put together a typical example that sets up the URL, Request and Headers before calling the fetch() method:
+            Sample
+            const url = 'https:example.com/data';
+            const headers = new Headers({ 'Content-Type': 'text/plain', 'Accept-Charset' : 'utf-8', 'Accept-Encoding':'gzip,deflate' })
+
+            const request = (url,{
+                headers: headers
+            })
+
+            fetch(request)
+            .then( function(response) {
+                if(response.ok) {
+                    return response;
+                }
+                throw Error(response.statusText);
+            })
+            .then( response => // do something with response )
+            .catch( error => console.log('There was an error!') )
+
+    Receiving data with Ajax - 
+
+        Receiving Information - To demonstrate how to update a web page using Ajax, we’ll need to set up a demonstration page. Create a file called 'ajax.html' that contains the following code:
+            Sample
+            <!doctype html>
+            <html lang='en'>
+            <head>
+            <meta charset='utf-8'>
+            <title>Ajax Example</title>
+            </head>
+            <body>
+            <button id='number'>Number Fact</button>
+            <button id='chuck'>Chuck Norris Fact</button>
+            <div id='output'>
+                Ajax response will appear here
+            </div>
+            <script src='main.js'></script>
+            </body>
+        This is a standard HTML5 web page that contains two buttons and a <div> element. Each button will be used to make a different type of Ajax request. One will request plain text and the other will request a JSON string from an external API. The div with an id of 'output' will be where we’ll insert the response we receive from the Ajax request.
+
+        For our Ajax requests, we'll be using a couple of online APIs. The first is NumbersAPI, which returns facts about random numbers as a text string. The second is chucknorris.io, which returns a JSON string, containing a random satirical factoid about everybody's favorite hard man, Chuck Norris.
+
+        Now we need a JavaScript file. This should be called main.js and can be saved in the same directory as the other files. Add the following code to start with:
+            Sample
+            const textButton = document.getElementById('number');
+            const apiButton = document.getElementById('chuck');
+            const outputDiv = document.getElementById('output');
+        This assigns each of the buttons in the HTML file to a variable, so we can refer to them later in the file.
+
+        Next, we'll assign some URLs to variables:
+            Sample
+            const textURL = 'http://numbersapi.com/random';
+            const apiURL = 'https://api.chucknorris.io/jokes/random';
+
+        And finally, we'll assign an event handler to each button. Let's start with the Number Fact button:
+            Sample
+            textButton.addEventListener('click', () => {
+                fetch(textURL)
+                .then( response => {
+                    outputDiv.innerHTML = 'Waiting for response...';
+                if(response.ok) {
+                    return response;
+                }
+                    throw Error(response.statusText);
+                })
+                .then( response => response.text() )
+                .then( text => outputDiv.innerText = text )
+                .catch( error => console.log('There was an error:', error))
+            },false);
+        This uses the format we saw earlier to construct a fetch request. This returns a promise that resolves to a string. We can then place that string inside the <div> with an id of 'output' by assigning it its innerText property.
+
+        And now for the Chuck Norris Fact button:
+            Sample
+            apiButton.addEventListener('click', () => {
+                fetch(apiURL)
+                .then( response => {
+                    outputDiv.innerHTML = 'Waiting for response...';
+                if(response.ok) {
+                    return response;
+                }
+                throw Error(response.statusText);
+                })
+                .then( response => response.json() )
+                .then( data => outputDiv.innerText = data.value )
+                .catch( error => console.log('There was an error:', error))
+            },false);
+        This is almost identical to the Number example, except the response returns JSON, so we use the json() method to return a promise that resolves as a JavaScript object. This object has a value property that contains the Chuck Norris fact, so we insert it into the <div> with an id of 'output' using innerText again.  This example shows how easy it is to request data from a server, then insert it into a web page, although there are some subtle differences depending on what type of data is returned.
+
+    Sending data with Ajax - 
+
+        Sending Information - We can also use Ajax to send information. This can be a variety of formats, but is usually a JSON string.  To illustrate this, we're going to create a very simple To Do list application that sends information about a task to a server in JSON format, then receives a response to confirm that the task has been saved on a server.  Unfortunately, we don't have a database to save our tasks to, so we're going to have to use a dummy site called JSONPlaceholder. This spoofs the process of sending JSON data to a server, then receiving JSON data in response. It has a number of fake APIs that can be used to create fake examples of posts, comments, albums, photos, todos and users. We'll be using the fake todo API.  To get started, create an HTML document called 'todo.html' that contains the following code:
+            Sample
+            <!doctype html>
+            <html lang='en'>
+            <head>
+                <meta charset='utf-8'>
+                <title>To Do List</title>
+            </head>
+            <body>
+                <form id='todo' action='https://jsonplaceholder.typicode.com/todos' method='POST'>
+                    <input type='text' name='task'  placeholder='Add Task' autofocus required>
+                    <button type='submit'>Add Task</button>
+                </form>
+                <script src='main.js'></script>
+            </body>
+            </html>
+        This is a simple HTML page that contains a form with a text input element for adding a task, and a button to submit it.
+
+        Next, we need to create a JavaScript file called main.js and add the following code:
+            Sample
+            const form = document.forms['todo'];
+            form.addEventListener('submit', addTask, false);
+
+            function addTask(event) {
+                event.preventDefault();
+                const number = form.task.value;
+                const task = {
+                    userId: 1,
+                    title: form.task.value,
+                    completed: false
+                }
+                const data = JSON.stringify(task);
+                const url = 'https://jsonplaceholder.typicode.com/todos';
+
+                const headers = new Headers({
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                });
+                const request = new Request(url,
+                {
+                    method: 'POST',
+                    header: headers,
+                    body: data
+                }
+                )
+
+                fetch(request)
+                .then( response => response.json() )
+                .then( task => console.log(`Task saved with an id of ${task.id}`) )
+                .catch( error => console.log('There was an error:', error))
+
+            }
+        This code creates an event listener that first of all prevents the default behavior of the form, so it doesn't get submitted when the Add Task button is clicked. Next it creates a task object with a title property that is taken from what was entered in the form. It also has a completed property that has a default value of false. This object is then transformed into a JSON string using the JSON.stringify method and assigned to the variable data.
+
+        After this, we build the Headers and Request objects. Because we are sending JSON, we need to add headers of 'Accept': 'application/json' and 'Content-Type': 'application/json'. Because we are sending data, we need to ensure that the method property of the request object is POST so that a POST request is used to send the data. The most important property of the request object is body – this is where the data we want to send is placed. We use the data variable here, so that JSON is sent to the server.
+
+        Then we use the fetch() method to send the request and deal with the response. This creates a promise that resolves to a JSON object, so we use the json() method to create another promise that resolves to a JavaScript object. This object has a single property of id to mimic successfully saving the task to a database (as this would result in it being assigned an ID by the database).
+
+        We can use this to log a message to the console that refers to the id property that was returned.
+
+        If you open up the 'todo.html' file, add a task in the form and then submit it, you should see a message in the console similar to the one below.
+            Sample
+            << Task saved with an id of 201
+        This fakes the fact that the task has been saved to a database and the relevant data has been returned. In reality, the data hasn’t been saved, and the ID property has just been randomly generated for demonstration purposes.
+
+    Form data - The Fetch API includes the FormData interface, which makes it much easier to submit information in forms using Ajax.
+    A FormData instance is created using a constructor function:
+        Sample
+        const data = new FormData();
+    If a form is passed to this constructor function as an argument, the form data instance will serialize all the data automatically, ready to be sent using Ajax. In our last example, we created the task manually based on the data provided in the form. The FormData interface helps to reduce the amount of code needed when submitting forms.  We can use this to cut down the amount of code in main.js by changing it to the following:
+        Sample
+        const form = document.forms['todo'];
+
+        form.addEventListener('submit', addTask, false);
+
+        function addTask(event) {
+            event.preventDefault();
+            const task = new FormData(form);
+            const url = `http://echo.jsontest.com/id/1/title/${form.task.value}`;
+            const headers = new Headers({
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
+            const request = new Request(url,
+            {
+                method: 'POST',
+                mode: 'cors',
+                header: headers,
+                body: JSON.stringify(task)
+            }
+            )
+
+            fetch(request)
+            .then( response => response.json() )
+            .then( data => console.log(`${data.title} saved with an id of ${data.id}`) )
+            .catch( error => console.log('There was an error:', error))
+
+        }
+    In this function, we create a new FormData instance using the FormData() constructor function and provide the form as an argument. This does all the hard work of creating the task object for us.  It’s also possible to add data to the form data instance as key-value pairs using the append() method:
+        Sample
+        data = new FormData(); // no form provided as an argument creates an empty form data instance
+
+        data.append('height', 75);
+    The FormData interface really comes into its own when a form contains files to upload. This was a notoriously difficult task in the past, often requiring the use of Flash or another third-party browser plugin to handle the upload process. The FormData instance will automatically create the necessary settings required, and take care of all the hard work if any file uploads are present in the form.
+
+    A Living Standard
+
+        The Fetch API is, at the time of writing, what is known as a 'living standard', which means that the specification is being developed 'in the wild'. This means that, despite it being available to use, it’s still subject to change as developers, browser vendors and end-users provide feedback about how it works. It’s an experimental technology, and new features might get added, or the syntax and behavior of some properties and methods might change in the future. Don't let this put you off though – living standards often stay relatively stable, especially once they are implemented in browser engines. The latest versions of most browsers already support it (all, except Internet Explorer, anyway), but you should check the level of support before using it in production. By using it you are helping to develop future standards. Just make sure you keep up-to-date with the current specification.
+
+        If you don't want to 'live on the edge', you could consider using a library to take care of Ajax requests. The advantage of this approach is that the library will take care of any implementation details behind the scenes – it will use the most up-to-date methods, such as the fetch API, if it's supported, and fallback on using older methods, if required.
+
+        The jQuery library is a good option for this – it has the generic ajax() method that can be used in a very similar way to the fetch() method. For example, if you want to get the data from the number API, you would use the following code:
+            Sample
+            $.ajax('http://numbersapi.com/random')
+            .done(text => outputDiv.innerHTML = text );
