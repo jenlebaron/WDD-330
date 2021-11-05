@@ -37,7 +37,7 @@ input {
 }
 
 /* Style the "Add" button */
-.addBtn {
+#addBtn {
   padding: 5px;
   width: 25%;
   background: rgb(72, 167, 184);
@@ -47,6 +47,7 @@ input {
   cursor: pointer;
   transition: 0.3s;
   border-radius: 8px;
+  
 }
 
 /* adds hover to button */

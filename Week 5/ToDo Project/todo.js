@@ -79,24 +79,27 @@ function newTask(inputValue, completed, id) {
   var t = document.createTextNode(inputValue);
   li.appendChild(t);
   if (inputValue === '') {
-    alert("You must write something!");
+    // alert("You must write something!");
   } else {
     document.getElementById("myList").appendChild(li);
   }
   var span = document.createElement("SPAN");
   var txt = document.createTextNode("\u00D7");
   span.className = "close";
-  span.onclick = function(){
-    var li = this.parentElement;
-    li.style.display = "none";
-    var id = li.getAttribute('dataId');
-    tasks = tasks.filter((task) => {
-      return task.id != id
-    })
+  // span.onclick = function(){
+  //   var ls = this.parentElement;
+
+  //   console.log(ls);
+
+  //   ls.style.display = "none";
+  //   var id = ls.getAttribute('dataId');
+  //   tasks = tasks.filter((task) => {
+  //     return task.id != id
+  //   })
   span.appendChild(txt);
   li.appendChild(span);
   tasksRemaining();
-  }
+  // }
 }
 
 //still figuring out how to make this work 

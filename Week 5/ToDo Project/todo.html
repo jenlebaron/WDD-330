@@ -41,13 +41,15 @@ Details
             you complete the project in the allotted time. -->
 
 <body>
+    <main>
     <header id="myTodo">
         <h1>Todo List</h1>
         <a href="/index.html">Back to Index</a><br><br>
         <!-- add new task -->
         <div class="after">
             <input type="text" id='addTask' placeholder="Add New Task">
-            <span onclick="onNewTask()" class="addBtn">Add</span><br>
+            <button type="submit" id="addBtn">+</button>
+            <!-- <span onclick="onNewTask()" class="addBtn">Add</span><br> -->
         </div>
     </header>
 
@@ -55,22 +57,21 @@ Details
         <!-- task count down -->
         <span id="taskCount" class="taskCount"></span>
         <!-- checkbox -->
-        <ul id="myList">
-        </ul>
+        <ul id="myList"></ul>
         <br><br>
     </div>
 
     <div class="actionBar">
-        <!-- not linking onlicks until they are working -->
         <div class="buttonHolder">
             <!-- button to show all  -->
-            <button class="btn">All</button>
+            <input type="button" id="all" value="All">
             <!-- button to show active -->
-            <button>Active</button>
+            <input type="button" id="active" value="Active">
             <!-- button to show completed -->
-            <button>Complete</button>
+            <input type="button" id="complete" value="Complete">
         </div>
     </div>
+</main>
 </body>
 
 </html>

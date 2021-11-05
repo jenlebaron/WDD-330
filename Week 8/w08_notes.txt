@@ -1,0 +1,186 @@
+More AJAX and CSS Transforms and Transitions
+
+1. Read all of Ch8: Transforms and Transitions
+https://www.sitepoint.com/premium/books/html5-css3-for-the-real-world-2nd-edition/read/8
+
+2. Read all of Ch12: Canvas, SVG, and Drag and Drop
+https://www.sitepoint.com/premium/books/html5-css3-for-the-real-world-2nd-edition/read/12
+
+3. Turn in your notes (including questions) OR the code from at least one exercise, in ILearn.
+
+Chapter 8 - CSS3 Transforms and Transitions
+
+Our page is fairly static. Actually, it’s completely static. In Chapter 4 we learned a little about how to alter a form’s appearance based on its state with the :invalid and :valid pseudo-classes. But what about really moving things around? What about changing the appearance of elements, such as rotating or skewing them?
+
+For years, the only way to display text on an angle was to use an image of text created in an image-editing program and the only way to animate was to change positioning with JavaScript. This is far from ideal. Enter CSS3: without a line of JavaScript or a single JPEG, you can tilt, scale, move, and even flip your elements with ease.
+
+    Transforms
+
+        The CSS3 transform property lets you lets you translate, rotate, scale, and/or skew any element on the page. While some of these effects were possible using previously existing CSS features (such as translating with relative and absolute positioning), CSS3 gives you unprecedented control over many more aspects of the element’s appearance.
+
+    Translation
+
+        Translation functions allow you to move elements left, right, up, or down. These functions are similar to the behavior of position: relative; when declaring top and left, moving elements up and down or left and right along the x and y axes. When you employ a translation function, you’re moving elements without impacting the flow of the document. Unlike position: relative, which allows you to position an element either against its current position or against a parent or other ancestor, a translated element can only be moved relative to its current position.
+
+        The translate(x,y) function moves an element x from the left, and y from the top:
+        Sample
+        transform: translate(45px, -45px);
+        If you only want to move an element vertically or horizontally, you can use the translatex or translatey functions respectively. To move 45px to the right along the x axis, include:
+
+        Sample
+        transform: translateX(45px);
+        To move up along the y axis by 30px, include:
+
+        Sample
+        transform: translateY(-30px);
+        For our ad, we want to move the word “dukes” over to the right when the user hovers over it, as if it had been punched by our mustachioed pugilist. In the markup, we have:
+
+        Sample
+        <h1>Put your <span>dukes</span> up, sire</h1>
+        Let’s apply the style whenever the user hovers over the h1. This will make the effect more likely to be stumbled across than if it was only triggered by hovering over the span itself:
+
+        Sample
+        .ad-ad2 h1:hover span {
+            color: #484848;  
+            transform: translateX(40px);
+        }
+        Wait—this doesn’t work. What gives?
+
+        Transforms don’t work on inline elements. But that’s easy enough to fix. We’ll just add display: inline-block; to our span:
+
+        Sample
+        .ad-ad2 h1 span {
+            font-size: 30px;
+            color: #999999;
+            display: inline-block;
+            …
+        It’s nice, but we can still do better! Let’s look at how we can scale our text to make it bigger as well.
+
+        Sample
+
+        The scale(x,y) function scales an element by the defined factors horizontally then vertically. If only one value is provided, it will be used for both the x and y values, growing or shrinking your element or pseudo-element while maintaining the original aspect ratio. For example, scale(1) would leave the element the same size, scale(2) would double its proportions, scale(0.5) would halve them, and so on. Providing different values will distort the element, as you’d expect:
+
+        Sample
+        transform: scale(1.5, 0.25);
+        As with translate, you can also use the scaleX(x) or scaleY(y) functions. These functions will scale only the horizontal dimensions or only the vertical dimensions respectively.
+
+        A scaled element will grow outwards from or shrink inwards towards its center; in other words, the element’s center will stay in the same place as its dimensions change. To change this default behavior, you can include the transform-origin property, which we’ll be covering a bit later.
+
+        Let’s add a scale transform to our span:
+
+        Sample
+        .ad-ad2 h1:hover span {
+            color: #484848;  
+            transform: translateX(40px) scale(1.5);
+        }
+        Note that you shouldn’t declare a new transform: because of the cascade, a second transform would override the first. To declare multiple transformations, provide a space-separated list of transform functions. We simply add our scale to the end of that space-separated list.
+
+        It’s also worth remembering that scaling, like translation, has no impact on the document flow. This means that if you scale inline-block elements, text around it will fail to accommodate it with reflowing. Figure 8.3 shows an example of how this might be a problem. In cases where this is an issue, you may consider adjusting the element’s height, width, or font-size instead of using a scale() transform. Changing those properties will alter the space allocated to the element by the browser, but will also cause a reflow, recalculating the elements in the document to re-rendering part or all of the page. Transforming does not cause a reflow.
+
+    Rotation
+
+        The rotate() function rotates an element around the point of origin by a specified angle value. As with scale, by default the point of origin is the element’s center. Generally, angles are declared in degrees, with positive degrees moving clockwise and negative moving counterclockwise. In addition to degrees, values can be provided in grads, radians, or turns, but we’ll just be sticking with degrees.
+
+        Let’s add a rotate transform to our “dukes”:
+
+        Sample
+        .ad-ad2 h1:hover span {
+            color: #484848;
+            transform: rotate(10deg) translateX(40px) scale(1.5);
+        }
+        We’re rotating our span by ten degrees clockwise—adding to the effect of text that’s just been dealt a powerful uppercut. We are declaring the rotation before the translate so that it’s applied first—remember that transforms are applied in the order provided. In this case, the span will be rotated 10 degrees, and then moved 40px along the rotated x axis.
+
+    Note: Choose Your Ordering Carefully
+
+    The order of transform functions does matter: if you rotate before translating, your translate direction will be on the rotated axis. The rightmost square in Figure 8.8 was translated then rotated with transform: translateX(200px) rotate(135deg);. The leftmost square was rotated first then translated along the newly rotated axis: transform: rotate(135deg) translateX(200px);.
+
+Chapter 12
+
+Canvas, SVG, and Drag and Drop
+
+The HTML5 Herald is becoming quite dynamic for an “ol’ timey” newspaper! We’ve added a video with the new video element, made our site available offline, added support to remember the user’s name and email address, and used geolocation to detect where our user is.
+
+But there’s still much we can do to make it even more fun. First, the video is a little at odds with the rest of the paper, since it’s in color. Second, the geolocation feature, while fairly speedy, could use a progress indicator to let the user know we haven’t left them stranded. And finally, it would be nice to add one more dynamic piece to our page. We’ll take care of all three of these items using the APIs we’ll discuss in this chapter: Canvas, SVG, and Drag and Drop.
+
+    Canvas
+
+        With HTML5’s Canvas API, we can draw anything we can imagine, all through JavaScript. This can improve the performance of our websites by avoiding the need to download images off the network. With canvas, we can draw shapes and lines, arcs and text, gradients and patterns. In addition, canvas gives us the power to manipulate pixels in images and even video. We’ll start by introducing some of the basic drawing features of canvas, but then move on to using its power to transform our video—taking our modern-looking color video and converting it into conventional black and white to match the overall look and feel of The HTML5 Herald.
+
+        A Bit of Canvas History
+
+        Canvas was first developed by Apple. Since they already had a framework—Quartz 2D—for drawing in two-dimensional space, they went ahead and based many of the concepts of what woud come to be known as HTML5’s canvas on that framework. It was then adopted by Mozilla and Opera, and then standardized by the WHATWG (and subsequently picked up by the W3C, along with the rest of HTML5).
+
+        There’s some good news here. If you aspire to do development for the iPhone or iPad (referred to jointly as iOS), or for the Mac, what you learn in canvas should help you understand some of the basic concepts of Quartz 2D. If you already develop for the Mac or iOS and have worked with Quartz 2D, many canvas concepts will look very familiar to you.
+
+        Creating a canvas Element
+
+        The first step to using canvas is to add a canvas element to the page:
+
+        Sample
+        <canvas>
+            Sorry! Your browser doesn’t support Canvas.
+        </canvas>
+        The text in between the canvas tags will only be shown if the canvas element is not supported by the visitor’s browser.
+
+        Since drawing on the canvas is done using JavaScript, we’ll need a way to grab the element from the DOM. We’ll do so by giving our canvas an ID:
+
+        Sample
+        <canvas id="myCanvas" class="myCanvas">
+            Sorry! Your browser doesn’t support Canvas.
+        </canvas>
+        The canvas element takes both a width and height attribute, which must also be set.
+
+        Note: Why not set width and height using CSS?
+
+        You may be asking yourself, why not set the width and height via CSS? It’s because the width and height attributes determine how large the canvas’s coordinate system is. If we don’t specify width and height, the canvas element will default to a width of 300 and a height of 150. If we set the width and height for a canvas only in CSS, the canvas element will be 300 by 150, and the CSS properties will simply determine how large the box is that displays the image.
+
+        Let’s add a width and height attribute to the canvas element:
+
+        Sample
+        <canvas id="myCanvas" class="myCanvas" width="200" height="200">
+            Sorry! Your browser doesn’t support Canvas.
+        </canvas>
+        Finally, let’s add a border to our canvas using some CSS to visually distinguish it on the page. Canvas has no default styling, so it’s difficult to see where it is on the page unless you give it some kind of border:
+
+        Sample
+        .myCanvas {
+            border: dotted 2px black;
+        }
+
+function drawPattern() {
+    var canvas = document.getElementById("demo2");
+    var context = canvas.getContext("2d");
+    context.strokeStyle = "red";
+
+    var img = new Image(); 
+    img.src = "../images/bg-bike.png";
+}
+
+function drawPattern() {
+    var canvas = document.getElementById("demo2");
+    var context = canvas.getContext("2d");
+    context.strokeStyle = "red";
+    
+    var img = new Image();
+    img.src = "../images/bg-bike.png";
+    img.onload = function() { 
+    };            
+}
+
+function drawPattern() {
+    …
+    var img = new Image();
+    img.src = "../images/bg-bike.png";
+    img.onload = function() {
+    var pattern = context.createPattern(img, "repeat"); 
+    context.fillStyle = pattern;                        
+    context.fillRect(10, 10, 100, 100);                  
+    context.strokeRect(10, 10, 100, 100);             
+    };
+}
+
+Note: Anonymous Functions
+
+You may be asking yourself, “what is that function statement that comes right before the call to img.onload?” It’s an anonymous function. Anonymous functions are much like regular functions except, as you might guess, they are without names.
+
+When you see an anonymous function defined as an event listener, it means that the anonymous function is being bound to that event. In other words, the code inside that anonymous function will be run when the load event is fired.
