@@ -1,1 +1,10 @@
 NPM, Node.js and DOM
+
+1   Read all of Ch9: The Window Object.
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/9
+
+2   Read all of Ch14: HTML5 APIs.
+https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/read/14
+
+3   Also complete this exercise on modern front end development workflow.
+4   Turn in your notes (including questions) OR the code from the examples/exercises, in ILearn.

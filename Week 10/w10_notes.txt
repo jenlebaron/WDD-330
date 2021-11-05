@@ -1,1 +1,8 @@
 Import and Export
+
+1   Read through MDN: Validating forms pay special attention to the part about validating with the API.
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
+
+2   Read through MDN: Using Fetch pay special attention to supplying request options.
+https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+

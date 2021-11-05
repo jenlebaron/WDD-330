@@ -1,0 +1,48 @@
+Managing the modern Front-end workflow
+
+Development workflow has become quite complicated for Web development. Lets take a medium sized project for example. It could have dozens of javascript files, several css files, 3rd party libraries, and who knows how many icons, fonts, images, etc are involved. It might be using a CSS preprocessor like SASS or it could be transpiling the Javascript to make sure that new features will work in older browsers.
+
+A potential list of tasks that could need to happen everytime something changes is this:
+
+Lint CSS and Javascript to find any coding issues.
+Run unit tests to make sure nothing got broken with your last changes
+compile all SCSS/LESS to CSS
+concatinate all CSS into one file for faster loading,
+Minify the CSS to reduce file size.
+Transpile Javascript with Babel for wider support for older browsers
+Concatinate all JS files into one file for faster loading
+Minify and Uglify Javascript to reduce size
+Do the same for any 3rd party CSS or JS
+Move all the production assets into a distribution directory to separate them from the development stuff
+Whew! That's a big list...and they have to happen A LOT!
+
+It's no wonder that developers have produced tools to help manage all of this. This activity will introduce a simple implementation of some of these tools. The tools fall into three catagories:
+
+Package managers: These keep track of all of the external dependencies for our app. Both development tools and libraries we might be using. It knows not only which packages to download...but tracks versions as well. We are using npm for our package manager.
+Bundlers: bundlers handle the compiling, transpiling, concatinating, minifying, and moving around of assets in our project. We are using Parcel as our bundler. Another common bundler is Webpack
+Task managers: these keep track of what needs to be done and when. There will generally be scripts defined in the task manager for each phase of development. Our project is fairly simple so we are just using npm again for task manager. Other common managers are Grunt or Gulp
+Prerequisites
+
+It will really help if you are familiar with the command line for your Operating system. Here is a quick overview to the command line for Mac and the command line for Windows if you need a primer.
+You must have NodeJS installed on your computer. Most of these tools require it. Goto this software setup walkthrough and skip to the Node part for instructions for your OS.
+The boilerplate code. Download this and extract it somewhere you can find it on your computer. If you are not confident with the command line for your operating system then I recommend placing it on your Desktop or in Documents.
+Activity
+
+After completing the setup above open the command line on your computer and navigate to the directory where you saved the boilerplate code.
+There are a bunch of additional assets that need to be installed. Type npm install to get those. Once that is finished you will notice a new directory called node_modules.
+Open the folder with the boilerplate code in your editor. You will notice a few things.
+node_modules : This is where all of the 3rd party tools we will need got installed to when you ran 'npm install' above.
+src: This is where I have placed all of the code. This is where you will work.
+package.json: This file contains the information about the dependencies for the project. When you ran the install command this is how it knew what to go get. We can also define a few scripts in here.
+Various other configuration files.
+Open the package.json file in your editor. Look first at the scripts portion. You should see the following possible commands:
+prestart: This gets run automatically when you run start or you can run it by itself as well. It does a bit of cleanup for us.
+start: This command starts up our bundler Parcel. This starts a webserver on port 1234, clears out the 'build' directory, builds the new files based on what is in 'src' (transpiles with babel, compiles our Sass if we are using it, and concatenates all of our CSS and JS into separate files.), watches our files for changes, re-compiles everything on a change and refreshes the browser. It places the code in a build directory. Quite a lot for one simple command!
+prebuild: just like prestart this runs automatically when we run the build process.
+build: This command gets our code ready for distribution. It runs a similar process to the start above, but also minifies the CSS and JS. It creates a dist directory. If you were publishing your app to a server that is the code you would move.
+watch is very similar to start
+lint runs a linter on your Javascript and will make recommendations and sometimes even changes to your code based on the rules it is configured with.
+You can run any of those scripts by navigating to the project directory and typing npm run command. So to start parcel running and launch it's built in web server you would type npm run start
+Look next at the devDependencies section. This lists out all of the tools we are using to facilitate our development. These tools will not be a part of the distribution code. This is a good thing, I don't know if you noticed...but the node_modules directory is over 100MB!
+To start up your tools go ahead and run npm run start in the command line. You should see the build directory get created and populated with files. And if you point your web browser to http://localhost:1234 you will see a simple page. Make a change to any of the files in the project and the browser will auto-refresh.
+When you are done working you can hit ctrl-c in your command line to end that process.
