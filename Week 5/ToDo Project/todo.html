@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
     <link rel='stylesheet' href='todo.css'>
-    <script src='todo.js' defer></script>
+
 </head>
 <!-- Todo Application
 
@@ -42,36 +42,31 @@ Details
 
 <body>
     <main>
-    <header id="myTodo">
-        <h1>Todo List</h1>
-        <a href="/index.html">Back to Index</a><br><br>
-        <!-- add new task -->
-        <div class="after">
-            <input type="text" id='addTask' placeholder="Add New Task">
-            <button type="submit" id="addBtn">+</button>
-            <!-- <span onclick="onNewTask()" class="addBtn">Add</span><br> -->
-        </div>
-    </header>
+        <header id="myTodo">
+            <h1>Todo List</h1>
+            <a href="/index.html">Back to Index</a><br><br>
 
-    <div>
-        <!-- task count down -->
-        <span id="taskCount" class="taskCount"></span>
-        <!-- checkbox -->
-        <ul id="myList"></ul>
-        <br><br>
-    </div>
+            <div>
+                <input type="text" id='addTask' placeholder="Add New Task">
+                <button type="submit" id="addBtn">+</button>
+                <div id="error"></div>
+            </div>
+        </header>
 
-    <div class="actionBar">
-        <div class="buttonHolder">
-            <!-- button to show all  -->
-            <input type="button" id="all" value="All">
-            <!-- button to show active -->
-            <input type="button" id="active" value="Active">
-            <!-- button to show completed -->
-            <input type="button" id="complete" value="Complete">
+        <div id="main-app">
+
+            <ul id="tasks"></ul>
+            <br><br>
+            <div class="actionBar">
+                <div id="num-task">0 tasks left</div>
+                <input class="tab selected-tab" type="button" id="all" value="All">
+                <input class="tab" type="button" id="active" value="Active">
+                <input class="tab" type="button" id="complete" value="Completed">
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 </body>
+
+<script src='js/main.js' type="module"></script>
 
 </html>

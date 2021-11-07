@@ -1,38 +1,36 @@
 import * as lsH from './ls.js';
 
-//initialize the list to be an empty array
 let todoList = [];
 
-
-export default class Todos{
-  constructor(id){
+export default class Todos {
+  constructor(id) {
     this.element = document.getElementById(id);
     this.key = id;
     this.error = document.getElementById("error");
     todoList = getToDo(this.key);
   }
 
-  showToDoList (){
+  showToDoList() {
     renderToDoList(this.element, todoList);
     this.addEventListeners();
   }
 
-  addToDo(){
+  addToDo() {
     this.error.innerHTML = "";
     const task = document.getElementById('addTask');
     if (task.value === "") {
       this.error.innerHTML = "Please enter a new task";
       return;
     }
-    saveTodo (task, this.key);
+    saveTodo(task, this.key);
     this.showToDoList();
   }
 
   addEventListeners() {
-    const ls = array.from(this.element.children);
-    ls.forEach(item=> {
-      item.children[0].addEventListener('click', event => this.completeToDo(item.id) );
-      item.children[2].addEventListener('click', event => this.removeItem(item.id) );
+    const ls = Array.from(this.element.children);
+    ls.forEach(item => {
+      item.children[0].addEventListener('click', event => this.completeToDo(item.id));
+      item.children[2].addEventListener('click', event => this.removeItem(item.id));
     })
   }
 
@@ -50,9 +48,9 @@ export default class Todos{
     this.showToDoList();
   }
 
-  filterToDos(category){
+  filterToDos(category) {
     category = filterBy(category);
-    const f = todoList.filter(task => (category != null) ? task.completed === category : task );
+    const f = todoList.filter(task => (category != null) ? task.completed === category : task);
     renderToDoList(this.element, f);
     this.addEventListeners();
   }
@@ -61,20 +59,75 @@ export default class Todos{
     const actionButtons = Array.from(document.querySelectorAll('.tab'));
     actionButtons.forEach(tab => {
       tab.addEventListener('click', event => {
-        for(let btn of actionButtons) {
+        for (let btn of actionButtons) {
           btn.classList.remove('selected-tab');
-          this.filterToDos(event.currentTarget.id);
+
         }
+        event.currentTarget.classList.add('selected-tab');
+        this.filterToDos(event.currentTarget.id);
+
       });
     });
   }
 }
 
+function filterBy(category) {
+  switch (category) {
+    case 'active':
+      return false;
+    case 'complete':
+      return true;
+    case 'all':
+      return null;
+    default:
+      return null;
+  }
+}
+
+function getToDo(key) {
+  let ls = lsH.readFromLS(key);
+  return ls === null ? [] : ls;
+}
+
+function saveTodo(task, key) {
+  let timestamp = Date.now();
+
+  const newTodo = {
+    id: timestamp,
+    content: task.value,
+    completed: false
+  };
+  todoList.push(newTodo);
+  lsH.writeToLS(key, todoList);
+  task.value = '';
+  task.focus();
+}
+
+function renderToDoList(ul, ls) {
+  ul.innerHTML = '';
+
+  ls.forEach(taskObject => ul.innerHTML += renderOneToDo(taskObject));
+  updateCount(ls);
+}
+
+function renderOneToDo(task) {
+  return `<li id="${task.id}" ${task.completed ? 'class="completed"' : ''}>
+    <input name="${task.content}" type="checkbox" value="none" ${task.completed ? 'checked' : ''}>
+    <p>${task.content}</p>
+    <div class='delete'>X</div>
+    </li>`;
+}
+
+function updateCount(ls) {
+  document.getElementById('num-task').innerHTML = `${(ls != null) ? ls.length : 0} tasks left`;
+}
+
+function markDone(itId) {
+  document.getElementById(itId).classList.toggle('completed');
+}
 
 
-
-
-
+// This is my old code that I was confused on
 
 // var tasks = JSON.parse(localStorage.getItem('tasks'));
 // if (tasks === null) {
