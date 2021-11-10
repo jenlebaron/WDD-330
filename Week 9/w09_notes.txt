@@ -8,3 +8,117 @@ https://www.sitepoint.com/premium/books/javascript-novice-to-ninja-2nd-edition/r
 
 3   Also complete this exercise on modern front end development workflow.
 4   Turn in your notes (including questions) OR the code from the examples/exercises, in ILearn.
+
+The Browser Object Model
+
+The Browser Object Model (or BOM for short) is a collection of properties and methods that contain information about the browser and computer screen. For example, we can find out which browser is being used to view a page (though, this method is unreliable). We can also find out the dimensions of the screen it is viewed on, and which pages have been visited before the current page. It can also be used for the rather dubious practice of creating pop-up windows, if you’re into annoying your users.
+
+There is no official standard for the BOM, although there are a number of properties and methods that are supported by all the major browsers, making a sort of de facto standard. These properties and methods are made available through the window object. Every browser window, tab, popup, frame, and iframe has a window object.
+
+The BOM Only Makes Sense in a Browser Environment
+
+    Remember that JavaScript can be run in different environments. The BOM only makes sense in a browser environment. This means that other environments (such as Node.js) probably won’t have a window object, although they will still have a global object; for example, Node.js has an object called global.
+
+    If you don’t know the name of the global object, you can also refer to it using the keyword this in the global scope. The following code provides a quick way of assigning the variable global to the global object:
+
+Sample
+// from within the global scope
+const global = this;
+
+Cookies
+
+Creating Cookies
+
+    To create a cookie, you assign it to JavaScript’s “cookie jar”, using the document.cookie property, like so:
+
+    Sample
+    document.cookie = 'name=Superman';
+    << "name=Superman"
+    The document.cookie property acts like a special type of string. Assigning another cookie to it won’t overwrite the entire property, it will just append it to the end of the string. So we can add more cookies by assigning them to document.cookie:
+
+    Sample
+    document.cookie = 'hero=true';
+    << "hero=true"
+
+    document.cookie = 'city=Metropolis';
+    << "city=Metropolis"
+    Changing Cookie Values
+
+    A cookie’s value can be changed by reassigning it to document.cookie using the same name but a different value. The following code will update the value of two of the cookies that we set in the previous section:
+
+    Sample
+    document.cookie = 'name=Batman'
+    << "name=Batman"
+    document.cookie = 'city=Gotham'
+    << "city=Gotham"
+    Reading Cookies
+
+    To see the current contents of the cookie jar, simply enter document.cookie:
+
+    Sample
+    document.cookie:
+    << "name=Batman; hero=true; city=Gotham"
+    We can use the split method to break the string into an array containing each name/value pair, then use a for of loop to iterate through the array:
+
+    Sample
+    const cookies = document.cookie.split("; ");
+    for (crumb of cookies){
+        const [key,value] = crumb.split("=");
+        console.log(`The value of ${key} is ${value}`);
+    }
+    << The value of name is Batman
+        The value of hero is true
+        The value of city is Gotham
+        To see an example of cookies used in the wild, you can visit almost any website, open the browser console, and type document.cookie.
+
+        Cookie Expiry Dates
+
+        Cookies are session cookies by default. This means they are deleted once a browser session is finished (when the user closes the browser tab or window). Cookies can be made persistent ― that is, lasting beyond the browser session ― by adding "; expires=date" to the end of the cookie when it’s set, where date is a date value in the UTC String format Day, DD-Mon-YYYY HH:MM:SS GMT. The following example sets a cookie to expire in one day’s time:
+
+    Sample
+        const expiryDate = new Date(); 
+        const tomorrow = expiryDate.getTime() + 1000 * 60 * 60 * 24;
+        expiryDate.setTime(tomorrow);
+
+        document.cookie = `name=Batman; expires=${ expiryDate.toUTCString()}`;
+        An alternative is to set the max-age value. This takes a value in seconds, but it wasn’t supported in Internet Explorer before version 10:
+
+    Sample
+        document.cookie = 'name=Batman; max-age=86400' // 86400 secs = 1 day
+
+HTML5 APIs
+
+HTML5 is the latest version of the Hypertext Markup Language used to create web pages. The latest iteration is HTML 5.1, which finally became a W3C recommendation in November 2016.
+
+HTML5 was for HTML what ES6 was for JavaScript – it added a large number of new features to the specification. It also went beyond the actual markup language and brought together a number of related technologies such as CSS and JavaScript. We’ve already seen in Chapter 8 some of the new form elements as well as the validation API that has been introduced. In this chapter, we’ll be looking at some of the other APIs that were made available in HTML5 and beyond.
+
+HTML5
+
+The W3C plans to develop future versions of HTML5 much more frequently than previously, using smaller version increments. HTML 5.1 has already become the latest standard, and HTML 5.2 is in development. You can read more about the new features in HTML5.1 and what to expect in HTML 5.2 in this post on SitePoint.
+
+The HTML5 specification is separated into modules that allow different features to be developed at different paces then implemented without having to wait for other features to be completed. It also means that when a previously unforeseen development occurs, a new module can be created to cater for it. Modules can be at different stages of maturity, from ideas to full implementation. A useful site that checks to see if a specific feature can be used is Can I Use.
+
+The data- Attribute
+
+The data- attribute is a way of embedding data in a web page using custom attributes that are ignored by the browser. They’re also private to a page, so are not intended to be used by an external service – their sole purpose is to be used by a JavaScript program. This means they’re perfect for adding data that can be used as a hook that the program utilizes to access information about a particular element on the page.
+
+The names of these attributes can be decided by the developer, but they must use the following format:
+
+Start with data-.
+
+Contain only lowercase letters, numbers, hyphens, dots, colons or underscores.
+
+Include an optional string value.
+
+Examples could be:
+
+Sample
+data-powers = 'flight superSpeed'
+data-rating = '5' 
+data-dropdown 
+data-user = 'DAZ' 
+data-max-length = '32'
+
+Other APIs
+
+The list of APIs is constantly growing, and includes APIs for accessing a device’s camera, uploading files, accessing the battery status, handling push notifications, building drag-and-drop functionality, creating 3D effects with WebGL, and many more! A comprehensive list of HTML5 APIs can be found at the Mozilla Developer Network.
