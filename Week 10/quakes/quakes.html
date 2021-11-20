@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Local Quakes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script type="module" src="./index.js"></script>
+</head>
+
+<body>
+    <main>
+
+        <h1 class="title">Quake List</h1>
+
+        <a href="/index.html">Back to Index</a><br><br>
+        
+        <div class="columns">
+            <div class="column">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="number" placeholder="Radius" value="100" id="radiusInput">
+                    </div>
+                </div>
+            </div>
+            <div class="column is-narrow">
+                <button class="button is-link" onClick="onUpdateQuakes()">Update Quakes</button>
+            </div>
+        </div>
+        <div id="quakeList"></div>
+        </div>
+        </div>
+    </main>
+</body>
+
+</html>

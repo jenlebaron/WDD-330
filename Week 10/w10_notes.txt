@@ -6,3 +6,92 @@ https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
 2   Read through MDN: Using Fetch pay special attention to supplying request options.
 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
+Client-side form validation
+
+    Using built-in form validation
+    One of the most significant features of HTML5 form controls is the ability to validate most user data without relying on JavaScript. This is done by using validation attributes on form elements. We've seen many of these earlier in the course, but to recap:
+
+    required: Specifies whether a form field needs to be filled in before the form can be submitted.
+    minlength and maxlength: Specifies the minimum and maximum length of textual data (strings)
+    min and max: Specifies the minimum and maximum values of numerical input types
+    type: Specifies whether the data needs to be a number, an email address, or some other specific preset type.
+    pattern: Specifies a regular expression that defines a pattern the entered data needs to follow.
+    If the data entered in a form field follows all of the rules specified by the above attributes, it is considered valid. If not, it is considered invalid.
+
+    When an element is valid, the following things are true:
+
+    The element matches the :valid CSS pseudo-class, which lets you apply a specific style to valid elements.
+    If the user tries to send the data, the browser will submit the form, provided there is nothing else stopping it from doing so (e.g., JavaScript).
+    When an element is invalid, the following things are true:
+
+    The element matches the :invalid CSS pseudo-class, and sometimes other UI pseudo-classes (e.g., :out-of-range) depending on the error, which lets you apply a specific style to invalid elements.
+    If the user tries to send the data, the browser will block the form and display an error message.
+
+    Validating forms using JavaScript
+    You must use JavaScript if you want to take control over the look and feel of native error messages or to deal with legacy browsers that do not support HTML's built-in form validation. In this section we will look at the different ways to do this.
+
+    The Constraint Validation API
+    Most browsers support the Constraint Validation API, which consists of a set of methods and properties available on the following form element DOM interfaces:
+
+    HTMLButtonElement (represents a <button> element)
+    HTMLFieldSetElement (represents a <fieldset> element)
+    HTMLInputElement (represents an <input> element)
+    HTMLOutputElement (represents an <output> element)
+    HTMLSelectElement (represents a <select> element)
+    HTMLTextAreaElement (represents a <textarea> element)
+    The Constraint validation API makes the following properties available on the above elements.
+
+    validationMessage: Returns a localized message describing the validation constraints that the control doesn't satisfy (if any). If the control is not a candidate for constraint validation (willValidate is false) or the element's value satisfies its constraints (is valid), this will return an empty string.
+    validity: Returns a ValidityState object that contains several properties describing the validity state of the element. You can find full details of all the available properties in the ValidityState reference page; below is listed a few of the more common ones:
+    patternMismatch: Returns true if the value does not match the specified pattern, and false if it does match. If true, the element matches the :invalid CSS pseudo-class.
+    tooLong: Returns true if the value is longer than the maximum length specified by the maxlength attribute, or false if it is shorter than or equal to the maximum. If true, the element matches the :invalid CSS pseudo-class.
+    tooShort: Returns true if the value is shorter than the minimum length specified by the minlength attribute, or false if it is greater than or equal to the minimum. If true, the element matches the :invalid CSS pseudo-class.
+    rangeOverflow: Returns true if the value is greater than the maximum specified by the max attribute, or false if it is less than or equal to the maximum. If true, the element matches the :invalid and :out-of-range CSS pseudo-classes.
+    rangeUnderflow: Returns true if the value is less than the minimum specified by the min attribute, or false if it is greater than or equal to the minimum. If true, the element matches the :invalid and :out-of-range CSS pseudo-classes.
+    typeMismatch: Returns true if the value is not in the required syntax (when type is email or url), or false if the syntax is correct. If true, the element matches the :invalid CSS pseudo-class.
+    valid: Returns true if the element meets all its validation constraints, and is therefore considered to be valid, or false if it fails any constraint. If true, the element matches the :valid CSS pseudo-class; the :invalid CSS pseudo-class otherwise.
+    valueMissing: Returns true if the element has a required attribute, but no value, or false otherwise. If true, the element matches the :invalid CSS pseudo-class.
+    willValidate: Returns true if the element will be validated when the form is submitted; false otherwise.
+    The Constraint Validation API also makes the following methods available on the above elements and the form element.
+
+    checkValidity(): Returns true if the element's value has no validity problems; false otherwise. If the element is invalid, this method also fires an invalid event on the element.
+    reportValidity(): Reports invalid field(s) using events. Useful in combination with preventDefault() in an onSubmit event handler
+    setCustomValidity(message): Adds a custom error message to the element; if you set a custom error message, the element is considered to be invalid, and the specified error is displayed. This lets you use JavaScript code to establish a validation failure other than those offered by the standard HTML5 validation constraints. The message is shown to the user when reporting the problem.
+
+    Validating forms without a built-in API
+    In some cases, such as legacy browser support or custom controls, you won't be able to or won't want to use the Constraint Validation API.You're still able to use JavaScript to validate your form, but you'll just have to write your own.
+
+    To validate a form, ask yourself a few questions:
+
+    What kind of validation should I perform?
+    You need to determine how to validate your data: string operations, type conversion, regular expressions, and so on. It's up to you.
+
+    What should I do if the form doesn't validate?
+    This is clearly a UI matter. You have to decide how the form will behave. Does the form send the data anyway? Should you highlight the fields that are in error? Should you display error messages?
+
+    How can I help the user to correct invalid data?
+    In order to reduce the user's frustration, it's very important to provide as much helpful information as possible in order to guide them in correcting their inputs. You should offer up-front suggestions so they know what's expected, as well as clear error messages. If you want to dig into form validation UI requirements, here are some useful articles you should read:
+
+    SmashingMagazine: Form-Field Validation: The Errors-Only Approach
+    SmashingMagazine: Web Form Validation: Best Practices and Tutorials
+    WebFX: 10 Tips for Optimizing Web Form Submission Usability
+    A List Apart: Inline Validation in Web Forms
+    An example that doesn't use the constraint validation API
+    In order to illustrate this, the following is a simplified version of the previous example that works with legacy browsers.
+
+Using Fetch
+    The Fetch API provides a JavaScript interface for accessing and manipulating parts of the HTTP pipeline, such as requests and responses. It also provides a global fetch() method that provides an easy, logical way to fetch resources asynchronously across the network.
+
+This kind of functionality was previously achieved using XMLHttpRequest. Fetch provides a better alternative that can be easily used by other technologies such as Service Workers. Fetch also provides a single logical place to define other HTTP-related concepts such as CORS and extensions to HTTP.
+
+The fetch specification differs from jQuery.ajax() in the following significant ways:
+
+The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500. Instead, as soon as the server responds with headers, the Promise will resolve normally (with the ok property of the response set to false if the response isn’t in the range 200–299), and it will only reject on network failure or if anything prevented the request from completing.
+fetch() won’t send cross-origin cookies unless you set the credentials init option. (Since April 2018. The spec changed the default credentials policy to same-origin. Firefox changed since 61.0b13.)
+A basic fetch request is really simple to set up. Have a look at the following code:
+
+sample code
+
+fetch('http://example.com/movies.json')
+  .then(response => response.json())
+  .then(data => console.log(data));
