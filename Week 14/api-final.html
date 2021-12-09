@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Weather Api</title>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Weather API</h1>
+            <p><i>Is now a good time to tan?</i></p>
+            <a href="/index.html">Back to Index</a><br><br>
+            <hr>
+        </header>
+        
+        <div class="content">
+            <p>Enter your Zipcode.</p>
+            <input id=zipcode type="text">
+            <button onclick="getUvIndex()">Send</button>
+            <div id="apiData"></div>
+            <div id="temp"></div>
+            <ul>
+                <p>UV Index Key</p>
+                <li>0-2 = low <i>(Maybe next time)</i></li> 
+                <li>3-5 = Moderate <i>(Tanning can happen but might take awhile)</i></li>
+                <li>6-7 = High <i>(A good day to tan)</i></li>
+                <li>8-10 = Very High <i>(Yes but bring your sunblock)</i></li>
+                <li>11+ = Extreme <i>(Burn Baby Burn)</i></li>
+            </ul>
+
+        </div>
+        <footer>
+            <h3>Jennifer LeBaron</h3>
+            <p>BYUI | WDD 330<br>
+            Web Frontend Development II<br>
+            API Final</p>
+        </footer>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
