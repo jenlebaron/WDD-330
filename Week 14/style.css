@@ -3,37 +3,101 @@ body{
     margin: 0;
     background-image: url("hot-sun-rays.jpg");
     background-repeat: no-repeat;
-    background-position: absolute; 
+    background-position: center; 
+    background-size: cover;
 
 }
 header{
-    padding: 60px;
+    padding:  0 20px;
     text-align: center;
-    /* background: #eeae24; */
-    /* color: white; */
     color:black;
     font-size: 30px;
 }
+#back{
+    color:hsl(240, 64%, 50%);
+    padding-bottom: 0;
+    font-size: 16px;
+}
 
+#enter{
+    color: white;
+}
 hr{
-    background: black;
-    height: 5px;
-    width: 100%;
+    border-top:  1px solid black;
+}
+input{
+    line-height: 2.5em;
+    width: 40%;
+    margin: auto;
+    border-radius: 5px;
+    padding-left: 35px;
 }
 .content{
     padding: 20px;
     background-image: url("tan-legs.jpg");
     background-repeat: no-repeat;
-    background-position: absolute;
-    /* background: white; */
+    background-position: center;
+    background-size: cover;
+    width: 70%;
+    margin: auto;
+    border-radius: 10px;
+
 }
-li {
-    list-style: none;
-    /* text-align: center; */
-    width: auto;
+#findApi{
+display: flex;
+flex-direction: column;
+justify-content: center;
+width: 60%;
+margin: auto;
 }
-footer{
-    padding: 10px;
+
+p{
     text-align: center;
-    /* background: #eeae24; */
+}
+
+#index{
+    width: 90%;
+    height: auto;
+    margin: auto;
+    border: 2px solid rgb(255, 230, 0);
+    border-radius: 5px;
+    background: rgba(236, 215, 198, 0.4);
+}
+#onClick{
+    width: 100%;
+    height: auto;
+    margin: auto;
+    border: 2px solid rgb(255, 230, 0);
+    border-radius: 5px;
+    background: rgba(236, 215, 198, 0.4);
+}
+
+li {
+    font-size: small;
+    padding-bottom: 10px;
+    line-height: 20px;
+}
+button {
+    border: none;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: rgb(255, 230, 0);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+button:hover {
+    font-size: larger;
+    cursor: pointer;
+}
+
+
+footer{
+    padding: 5px;
+    text-align: center;
     }
